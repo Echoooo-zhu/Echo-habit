@@ -112,6 +112,68 @@ body {
   margin-top: 5px;
   font-weight: 500;
 }
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.username {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  padding: 4px 12px;
+  background: var(--glass-tertiary);
+  border-radius: 100px;
+  border: 0.5px solid var(--edge-secondary);
+  margin-top: 6px;
+  white-space: nowrap;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Name Modal */
+.name-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+}
+.name-modal-overlay.show { display: flex; }
+.name-modal {
+  background: var(--glass-primary);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border-radius: var(--r-lg);
+  border: 0.5px solid var(--edge-primary);
+  padding: 28px 24px 24px;
+  width: calc(100% - 64px);
+  max-width: 320px;
+  text-align: center;
+}
+.name-modal-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.name-modal-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; }
+.name-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 0.5px solid var(--edge-subtle);
+  border-radius: var(--r-sm);
+  background: var(--glass-input);
+  color: var(--text);
+  text-align: center;
+  outline: none;
+  transition: all 210ms ease-out;
+  font-family: var(--font);
+}
+.name-input:focus { background: var(--glass-input-focus); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.12); }
 
 /* Tab Navigation — glass pill row */
 .tab-nav {
@@ -422,33 +484,36 @@ body {
 /* ═══════════════ Dashboard Stats ═══════════════ */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
 }
 .stat-card {
+  position: relative;
+  z-index: 1;
   background: var(--glass-secondary);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
   border-radius: var(--r-lg);
   border: 0.5px solid var(--edge-secondary);
-  padding: 20px 14px;
+  padding: 14px 8px;
   text-align: center;
   transition: transform 210ms ease-out;
+  overflow: hidden;
 }
 .stat-card:active { transform: scale(0.97); transition: transform 80ms ease-out; }
 .stat-card .stat-num {
-  font-size: 38px;
+  font-size: 28px;
   font-weight: 700;
-  letter-spacing: -1px;
+  letter-spacing: -0.5px;
   text-shadow: 0 0.5px 0 rgba(255,255,255,0.6);
 }
 .stat-card .stat-label {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-secondary);
-  margin-top: 6px;
+  margin-top: 4px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
 }
 .chart-container {
   position: relative;
@@ -710,19 +775,21 @@ body {
 
 <div class="sticky-header">
 <div class="app-header">
-  <h1>生活习惯打卡</h1>
-  <div class="date" id="headerDate"></div>
+  <div class="header-row">
+    <div><h1>生活习惯打卡</h1><div class="date" id="headerDate"></div></div>
+    <span class="username" id="usernameDisplay" onclick="promptSetUsername()"></span>
+  </div>
 </div>
 <div class="tab-nav">
-  <button class="active" data-tab="weight"><span class="tab-icon">⚖️</span>体重</button>
-  <button data-tab="period"><span class="tab-icon">📅</span>月经</button>
+  <button class="active" data-tab="dashboard"><span class="tab-icon">📊</span>看板</button>
+  <button data-tab="weight"><span class="tab-icon">⚖️</span>体重</button>
   <button data-tab="exercise"><span class="tab-icon">🏃</span>运动</button>
-  <button data-tab="dashboard"><span class="tab-icon">📊</span>看板</button>
+  <button data-tab="period"><span class="tab-icon">📅</span>月经</button>
 </div>
 </div>
 
 <!-- Weight Tab -->
-<div class="tab-content active" id="tab-weight">
+<div class="tab-content" id="tab-weight">
   <div class="card">
     <div class="card-title" style="justify-content:space-between;">
       <span>体重记录</span>
@@ -875,8 +942,24 @@ body {
 </div>
 
 <!-- Dashboard Tab -->
-<div class="tab-content" id="tab-dashboard">
+<div class="tab-content active" id="tab-dashboard">
   <div class="dashboard-grid">
+    <div class="stat-card">
+      <div class="stat-num" id="statLatestWeight" style="color:var(--accent);">--</div>
+      <div class="stat-label">当前体重</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="statWeightChange" style="color:var(--danger);">--</div>
+      <div class="stat-label">7天体重变化</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="statExercise" style="color:var(--warning);">0</div>
+      <div class="stat-label">本月运动次数</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="statExerciseDur" style="color:var(--primary);">0</div>
+      <div class="stat-label">本月运动时长</div>
+    </div>
     <div class="stat-card">
       <div class="stat-num" id="statTotalDays" style="color:var(--primary);">0</div>
       <div class="stat-label">累计打卡天数</div>
@@ -885,18 +968,16 @@ body {
       <div class="stat-num" id="statStreak" style="color:var(--success);">0</div>
       <div class="stat-label">连续打卡</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num" id="statExercise" style="color:var(--warning);">0</div>
-      <div class="stat-label" id="statExerciseLabel">本月运动次数</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="statWeightChange" style="color:var(--danger);">--</div>
-      <div class="stat-label">7天体重变化</div>
-    </div>
   </div>
 
   <div class="card">
-    <div class="card-title">体重趋势（近30天）</div>
+    <div class="card-title" style="justify-content:space-between;">
+      <span>体重趋势</span>
+      <div style="display:flex;gap:2px;">
+        <button class="filter-btn active" id="wtTrend30" onclick="setWeightTrendMode('30')" style="font-size:11px;padding:4px 10px;">近30天</button>
+        <button class="filter-btn" id="wtTrendAll" onclick="setWeightTrendMode('all')" style="font-size:11px;padding:4px 10px;">总趋势</button>
+      </div>
+    </div>
     <div class="chart-container"><canvas id="weightChart"></canvas></div>
   </div>
 
@@ -926,6 +1007,18 @@ body {
 </div>
 
 <div class="toast" id="toast"></div>
+
+<div class="name-modal-overlay" id="nameModal">
+  <div class="name-modal">
+    <div class="name-modal-title">你好，怎么称呼？</div>
+    <div class="name-modal-sub">设置你的昵称，显示在右上角</div>
+    <input type="text" class="name-input" id="nameInput" placeholder="输入昵称" maxlength="12" autocomplete="off">
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn btn-outline" style="flex:1;" onclick="dismissNameModal()">稍后再说</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="saveUsername()">确认</button>
+    </div>
+  </div>
+</div>
 
 <script>
 // ─── Storage ───
@@ -958,6 +1051,58 @@ function loadData() {
 function saveData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
 
 var data = loadData();
+
+// ─── Username ───
+function loadUsername() {
+  return localStorage.getItem('habit_tracker_username') || '';
+}
+function saveUsernameToStorage(name) {
+  localStorage.setItem('habit_tracker_username', name);
+}
+function displayUsername() {
+  var name = loadUsername();
+  var el = document.getElementById('usernameDisplay');
+  if (name) {
+    el.textContent = name;
+    el.style.display = '';
+  } else {
+    el.textContent = '👤';
+    el.style.display = '';
+  }
+}
+function promptSetUsername() {
+  var name = loadUsername();
+  document.getElementById('nameInput').value = name || '';
+  document.getElementById('nameModal').classList.add('show');
+  setTimeout(function(){ document.getElementById('nameInput').focus(); }, 300);
+}
+function dismissNameModal() {
+  document.getElementById('nameModal').classList.remove('show');
+  if (!loadUsername()) {
+    document.getElementById('usernameDisplay').textContent = '👤';
+  }
+}
+function saveUsername() {
+  var name = document.getElementById('nameInput').value.trim();
+  if (!name) { showToast('请输入昵称'); return; }
+  saveUsernameToStorage(name);
+  document.getElementById('nameModal').classList.remove('show');
+  displayUsername();
+  showToast('你好，' + name + '！');
+}
+// Show name modal on first visit
+(function() {
+  if (!loadUsername()) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('nameModal').classList.add('show');
+      });
+    } else {
+      document.getElementById('nameModal').classList.add('show');
+    }
+  }
+})();
+displayUsername();
 
 // ─── Utilities ───
 function today() { return new Date().toISOString().split('T')[0]; }
@@ -1619,6 +1764,7 @@ function deleteExercise(idx) {
 var weightChartInst = null;
 var exerciseChartInst = null;
 var dashboardMonthOffset = 0;
+var weightTrendMode = '30';
 
 function getCheckinDays() {
   var days = {};
@@ -1696,6 +1842,27 @@ function renderDashboard() {
     document.getElementById('statWeightChange').style.color = 'var(--text-secondary)';
   }
 
+  var tn = today();
+  // 当前体重：最新有晨起体重的记录
+  var latestMorning = null;
+  for (var j = data.weights.length - 1; j >= 0; j--) {
+    if (data.weights[j].morning) { latestMorning = data.weights[j]; break; }
+  }
+  if (latestMorning) {
+    document.getElementById('statLatestWeight').textContent = latestMorning.morning + 'kg';
+    document.getElementById('statLatestWeight').style.color = 'var(--accent)';
+  } else {
+    document.getElementById('statLatestWeight').textContent = '--';
+    document.getElementById('statLatestWeight').style.color = 'var(--text-secondary)';
+  }
+
+  // 本月运动时长（分钟）
+  var monthDur = 0;
+  for (var k = 0; k < monthExercises.length; k++) {
+    monthDur += (monthExercises[k].duration || 0);
+  }
+  document.getElementById('statExerciseDur').textContent = monthDur + 'min';
+
   try { renderWeightChart(); } catch(e) {}
   try { renderExerciseChart(); } catch(e) {}
   renderHeatmap();
@@ -1706,6 +1873,13 @@ function shiftDashboardMonth(delta) {
   renderDashboard();
 }
 
+function setWeightTrendMode(mode) {
+  weightTrendMode = mode;
+  document.getElementById('wtTrend30').classList.toggle('active', mode === '30');
+  document.getElementById('wtTrendAll').classList.toggle('active', mode === 'all');
+  try { renderWeightChart(); } catch(e) {}
+}
+
 function renderWeightChart() {
   if (typeof Chart === 'undefined') return;
   var canvas = document.getElementById('weightChart');
@@ -1713,14 +1887,18 @@ function renderWeightChart() {
   var ctx = canvas.getContext('2d');
   if (weightChartInst) weightChartInst.destroy();
 
-  var recent30 = [];
-  for (var i = 0; i < data.weights.length; i++) {
-    if (daysBetween(data.weights[i].date, today()) <= 30) recent30.push(data.weights[i]);
+  var filtered = [];
+  if (weightTrendMode === 'all') {
+    filtered = data.weights.slice();
+  } else {
+    for (var i = 0; i < data.weights.length; i++) {
+      if (daysBetween(data.weights[i].date, today()) <= 30) filtered.push(data.weights[i]);
+    }
   }
-  recent30.sort(function(a,b){ return new Date(a.date) - new Date(b.date); });
+  filtered.sort(function(a,b){ return new Date(a.date) - new Date(b.date); });
 
   var emptyEl = canvas.parentElement.querySelector('.empty-state');
-  if (!recent30.length) {
+  if (!filtered.length) {
     if (weightChartInst) { weightChartInst.destroy(); weightChartInst = null; }
     canvas.style.display = 'none';
     if (!emptyEl) {
@@ -1734,18 +1912,22 @@ function renderWeightChart() {
   canvas.style.display = '';
   if (emptyEl) emptyEl.remove();
 
+  var labelFn = weightTrendMode === 'all'
+    ? function(w){ return w.date.slice(2); }
+    : function(w){ return w.date.slice(5); };
+
   weightChartInst = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: recent30.map(function(w){ return w.date.slice(5); }),
+      labels: filtered.map(labelFn),
       datasets: [
         {
-          label: '晨重', data: recent30.map(function(w){ return w.morning; }),
+          label: '晨重', data: filtered.map(function(w){ return w.morning; }),
           borderColor: '#007AFF', backgroundColor: 'rgba(0,122,255,0.06)',
           tension: 0.4, fill: false, pointRadius: 3, pointHoverRadius: 5, spanGaps: true
         },
         {
-          label: '晚重', data: recent30.map(function(w){ return w.evening; }),
+          label: '晚重', data: filtered.map(function(w){ return w.evening; }),
           borderColor: '#FF9500', backgroundColor: 'rgba(255,149,0,0.06)',
           tension: 0.4, fill: false, pointRadius: 3, pointHoverRadius: 5, spanGaps: true
         }
