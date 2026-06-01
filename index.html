@@ -1,0 +1,1933 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="习惯打卡">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>生活习惯打卡</title>
+<style>
+/* ═══════════════════════════════════════════════════════
+   iOS 26 Liquid Glass Design System
+   Glassmorphism 2.0 — Multi-layer Depth
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  /* Glass surface tints */
+  --glass-primary: rgba(255,255,255,0.58);
+  --glass-secondary: rgba(255,255,255,0.42);
+  --glass-tertiary: rgba(255,255,255,0.28);
+  --glass-header: rgba(242,244,250,0.72);
+  --glass-input: rgba(0,0,0,0.04);
+  --glass-input-focus: rgba(0,0,0,0.07);
+  --glass-selected: rgba(0,122,255,0.11);
+
+  /* Border — thin luminous edges */
+  --edge-primary: rgba(255,255,255,0.55);
+  --edge-secondary: rgba(255,255,255,0.35);
+  --edge-subtle: rgba(0,0,0,0.06);
+  --edge-accent: rgba(0,122,255,0.18);
+
+  /* Text */
+  --text: rgba(0,0,0,0.88);
+  --text-secondary: rgba(0,0,0,0.52);
+  --text-tertiary: rgba(0,0,0,0.28);
+  --text-on-glass: rgba(0,0,0,0.82);
+
+  /* Accent colors — vibrant but translucent */
+  --accent: #007AFF;
+  --accent-glass: rgba(0,122,255,0.82);
+  --danger: #FF3B30;
+  --danger-glass: rgba(255,59,48,0.10);
+  --warning: #FF9500;
+  --success: #34C759;
+  --purple: #AF52DE;
+
+  /* Radius — dynamic feel */
+  --r-lg: 26px;
+  --r-md: 20px;
+  --r-sm: 16px;
+  --r-xs: 12px;
+
+  /* Typography */
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Helvetica Neue', sans-serif;
+
+  /* Ambient light gradient */
+  --ambient-stops: #E6EAF2, #EBEDF4, #EEEBF4, #EAEEF3, #E4E8F1;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ═══════════════ Body — Ambient light background ═══════════════ */
+body {
+  font-family: var(--font);
+  color: var(--text);
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 0 16px 60px;
+  background:
+    radial-gradient(ellipse 70% 60% at 30% 10%, rgba(180,200,240,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 75% 50%, rgba(200,180,230,0.28) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 20% 85%, rgba(170,210,230,0.22) 0%, transparent 55%),
+    linear-gradient(172deg, #E8ECF5 0%, #EDEEF6 20%, #F0EEF7 45%, #ECF0F5 70%, #E7EBF3 100%);
+  background-attachment: fixed;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════ Sticky Header — Deep frosted glass ═══════════════ */
+.sticky-header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  margin: 0 -16px;
+  padding: 0 16px;
+  background: var(--glass-header);
+  backdrop-filter: saturate(200%) blur(32px);
+  -webkit-backdrop-filter: saturate(200%) blur(32px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.4);
+}
+
+.app-header {
+  padding: 22px 0 14px;
+  text-align: center;
+}
+.app-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.4px;
+  text-shadow: 0 0.5px 0 rgba(255,255,255,0.6);
+}
+.app-header .date {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+/* Tab Navigation — glass pill row */
+.tab-nav {
+  display: flex;
+  padding: 4px 0 8px;
+  gap: 2px;
+}
+.tab-nav button {
+  flex: 1;
+  padding: 10px 4px 8px;
+  border: none;
+  background: none;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+  letter-spacing: 0.1px;
+  transition: color 210ms ease-out;
+  border-radius: 0;
+}
+.tab-nav button.active {
+  color: var(--accent);
+  font-weight: 600;
+}
+.tab-nav button.active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 2.5px;
+  background: var(--accent);
+  border-radius: 1.5px;
+  box-shadow: 0 0 6px rgba(0,122,255,0.25);
+}
+.tab-nav .tab-icon {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 3px;
+}
+
+/* Content */
+.tab-content { display: none; }
+.tab-content.active { display: block; padding-top: 16px; }
+
+/* ═══════════════ Glass Card — Core surface ═══════════════ */
+.card {
+  background: var(--glass-primary);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border-radius: var(--r-lg);
+  border: 0.5px solid var(--edge-primary);
+  padding: 20px;
+  margin-bottom: 16px;
+  /* Light edge glow — no harsh shadow */
+  box-shadow:
+    0 0 0 0.5px rgba(255,255,255,0.6) inset,
+    0 1px 2px rgba(0,0,0,0.03),
+    0 4px 12px rgba(0,0,0,0.04);
+  transition: transform 210ms ease-out, box-shadow 210ms ease-out;
+}
+/* Subtle hover lift on desktop */
+@media (hover: hover) {
+  .card:hover {
+    box-shadow:
+      0 0 0 0.5px rgba(255,255,255,0.7) inset,
+      0 1px 3px rgba(0,0,0,0.04),
+      0 6px 18px rgba(0,0,0,0.06);
+  }
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: -0.2px;
+  color: var(--text-on-glass);
+}
+
+/* ═══════════════ Inputs — Glass-etched fields ═══════════════ */
+.input-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+  align-items: flex-end;
+}
+.input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.input-group label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.input-group input,
+.input-group select {
+  padding: 14px 16px;
+  border: 0.5px solid var(--edge-subtle);
+  border-radius: var(--r-sm);
+  font-size: 17px;
+  color: var(--text);
+  background: var(--glass-input);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background 210ms ease-out, border-color 210ms ease-out, box-shadow 210ms ease-out;
+}
+.input-group input:focus,
+.input-group select:focus {
+  outline: none;
+  background: var(--glass-input-focus);
+  border-color: rgba(0,122,255,0.25);
+  box-shadow: 0 0 0 3px rgba(0,122,255,0.06);
+}
+
+/* ═══════════════ Buttons — Glass + accent ═══════════════ */
+.btn {
+  padding: 14px 22px;
+  border: none;
+  border-radius: 100px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 210ms ease-out;
+  touch-action: manipulation;
+  min-height: 48px;
+  letter-spacing: -0.2px;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+.btn:active {
+  transform: scale(0.965);
+  transition: transform 80ms ease-out;
+}
+.btn-primary {
+  background: var(--accent-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: white;
+  border: 0.5px solid rgba(255,255,255,0.2);
+  box-shadow: 0 2px 8px rgba(0,122,255,0.2), 0 0 0 0.5px rgba(0,122,255,0.12);
+}
+.btn-outline {
+  background: var(--glass-selected);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--accent);
+  font-weight: 500;
+  border: 0.5px solid var(--edge-accent);
+}
+.full-width { width: 100%; }
+
+/* ═══════════════ Weight Today Boxes ═══════════════ */
+.weight-dual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.weight-box {
+  text-align: center;
+  padding: 18px 8px;
+  border-radius: var(--r-md);
+  background: var(--glass-secondary);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid var(--edge-secondary);
+}
+.weight-box .label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+.weight-box .value {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--text);
+}
+.weight-box .unit {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+.weight-box .bmi {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* ═══════════════ Tags ═══════════════ */
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.tag {
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 0.5px solid var(--edge-subtle);
+  cursor: pointer;
+  background: var(--glass-secondary);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 210ms ease-out;
+}
+.tag.selected {
+  background: var(--glass-selected);
+  border-color: var(--edge-accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ═══════════════ Period ═══════════════ */
+.period-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 16px 0;
+}
+.cycle-ring { position: relative; width: 140px; height: 140px; }
+.cycle-ring canvas { position: absolute; top: 0; left: 0; }
+.cycle-info {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.cycle-info .days { font-size: 40px; font-weight: 700; color: var(--danger); letter-spacing: -1px; }
+.cycle-info .sub { font-size: 11px; color: var(--text-secondary); font-weight: 500; }
+.period-stats { display: flex; flex-direction: column; gap: 10px; }
+.period-stat { display: flex; justify-content: space-between; font-size: 14px; min-width: 130px; }
+.period-stat .stat-val { font-weight: 600; }
+
+/* ═══════════════ Exercise Grid ═══════════════ */
+.exercise-type-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.exercise-type-item {
+  text-align: center;
+  padding: 14px 6px;
+  border-radius: var(--r-sm);
+  border: 0.5px solid var(--edge-subtle);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 210ms ease-out;
+  background: var(--glass-secondary);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.exercise-type-item .emoji { font-size: 26px; display: block; margin-bottom: 6px; }
+.exercise-type-item.selected {
+  background: var(--glass-selected);
+  border-color: var(--edge-accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+.exercise-type-item:active { transform: scale(0.95); transition: transform 80ms ease-out; }
+
+.intensity-row { display: flex; gap: 8px; margin-bottom: 14px; }
+.intensity-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 100px;
+  border: 0.5px solid var(--edge-subtle);
+  background: var(--glass-secondary);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  transition: all 210ms ease-out;
+}
+.intensity-btn.selected {
+  background: var(--glass-selected);
+  border-color: var(--edge-accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+.intensity-btn:active { transform: scale(0.95); transition: transform 80ms ease-out; }
+
+/* ═══════════════ Dashboard Stats ═══════════════ */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.stat-card {
+  background: var(--glass-secondary);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: var(--r-lg);
+  border: 0.5px solid var(--edge-secondary);
+  padding: 20px 14px;
+  text-align: center;
+  transition: transform 210ms ease-out;
+}
+.stat-card:active { transform: scale(0.97); transition: transform 80ms ease-out; }
+.stat-card .stat-num {
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  text-shadow: 0 0.5px 0 rgba(255,255,255,0.6);
+}
+.stat-card .stat-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.chart-container {
+  position: relative;
+  height: 220px;
+  margin: 4px 0;
+}
+.chart-container canvas { width: 100% !important; }
+
+/* ═══════════════ Heatmap ═══════════════ */
+.heatmap {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 4px 0;
+}
+.heatmap-day {
+  width: 13px; height: 13px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.06);
+  cursor: pointer;
+  transition: transform 210ms ease-out;
+}
+.heatmap-day:active { transform: scale(1.3); transition: transform 80ms ease-out; }
+.heatmap-day.level-1 { background: rgba(0,122,255,0.25); }
+.heatmap-day.level-2 { background: rgba(0,122,255,0.55); }
+.heatmap-day.level-3 { background: rgba(0,122,255,0.75); }
+.heatmap-day.level-4 { background: var(--accent); }
+.heatmap-labels {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--text-secondary);
+  margin-top: 10px; font-weight: 500;
+}
+
+/* ═══════════════ Filter Bar — Glass pills ═══════════════ */
+.filter-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.filter-btn {
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 0.5px solid var(--edge-subtle);
+  background: var(--glass-tertiary);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 210ms ease-out;
+  min-height: 34px;
+  touch-action: manipulation;
+}
+.filter-btn.active {
+  background: var(--glass-selected);
+  border-color: var(--edge-accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+.filter-btn:active { transform: scale(0.94); transition: transform 80ms ease-out; }
+
+/* Filter Navigation */
+.filter-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding: 4px 0;
+}
+.nav-arrow {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 0.5px solid var(--edge-subtle);
+  background: var(--glass-secondary);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  font-size: 20px;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 400;
+  transition: all 210ms ease-out;
+}
+.nav-arrow:active {
+  transform: scale(0.92);
+  background: rgba(0,122,255,0.08);
+  transition: transform 80ms ease-out;
+}
+.nav-label {
+  font-size: 15px;
+  font-weight: 600;
+  min-width: 120px;
+  text-align: center;
+  letter-spacing: -0.2px;
+}
+@media (hover: hover) {
+  .nav-arrow:hover { background: rgba(0,122,255,0.06); }
+}
+
+/* ═══════════════ History List ═══════════════ */
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 0.5px solid rgba(0,0,0,0.06);
+  font-size: 14px;
+}
+.history-item:last-child { border-bottom: none; }
+.history-item .hi-info { flex: 1; min-width: 0; }
+.history-item .hi-date { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+.history-item .hi-actions { display: flex; gap: 0; flex-shrink: 0; }
+.history-item .hi-edit {
+  color: var(--accent);
+  background: none; border: none;
+  font-size: 15px; cursor: pointer;
+  padding: 8px 10px; min-width: 40px; min-height: 40px;
+  touch-action: manipulation;
+  transition: transform 210ms ease-out;
+  border-radius: 50%;
+}
+.history-item .hi-delete {
+  color: var(--danger);
+  background: none; border: none;
+  font-size: 18px; cursor: pointer;
+  padding: 6px 10px; min-width: 40px; min-height: 40px;
+  touch-action: manipulation;
+  transition: transform 210ms ease-out;
+  border-radius: 50%;
+}
+.history-item .hi-edit:active,
+.history-item .hi-delete:active { transform: scale(0.85); transition: transform 80ms ease-out; }
+
+/* ═══════════════ Empty State ═══════════════ */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+}
+.empty-state .empty-icon { font-size: 44px; margin-bottom: 10px; opacity: 0.45; }
+.empty-state .empty-text { font-size: 14px; font-weight: 500; }
+
+/* ═══════════════ Toast ═══════════════ */
+.toast {
+  position: fixed;
+  top: 16px; left: 50%;
+  transform: translateX(-50%);
+  background: rgba(28,28,30,0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  color: white;
+  padding: 10px 24px;
+  border-radius: 100px;
+  border: 0.5px solid rgba(255,255,255,0.15);
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 210ms ease-out, transform 210ms ease-out;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(4px); }
+
+/* ═══════════════ Mini Calendar ═══════════════ */
+.mini-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px; text-align: center;
+  font-size: 12px; margin-top: 12px;
+}
+.mini-calendar .day-header {
+  color: var(--text-secondary);
+  font-weight: 600; padding: 4px 0;
+}
+.mini-calendar .day-cell {
+  padding: 8px 0; border-radius: var(--r-xs);
+  cursor: pointer; transition: background 210ms ease-out;
+  font-weight: 500;
+}
+.mini-calendar .day-cell.empty { cursor: default; }
+.mini-calendar .day-cell.today { font-weight: 700; background: var(--glass-secondary); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 0.5px solid var(--edge-secondary); }
+.mini-calendar .day-cell.period { background: var(--danger-glass); color: var(--danger); }
+.mini-calendar .day-cell.fertile { background: rgba(52,199,89,0.12); color: #248A3D; }
+.mini-calendar .day-cell.ovulation { background: rgba(255,149,0,0.12); color: #C93400; }
+
+.period-symptoms {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin: 10px 0;
+}
+.symptom-tag {
+  padding: 7px 14px; border-radius: 100px;
+  font-size: 12px; font-weight: 500;
+  border: 0.5px solid var(--edge-subtle);
+  cursor: pointer;
+  background: var(--glass-secondary);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 210ms ease-out;
+}
+.symptom-tag.selected {
+  background: var(--danger-glass);
+  border-color: rgba(255,59,48,0.2);
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.flow-row { display: flex; gap: 8px; margin-bottom: 14px; }
+.flow-btn {
+  flex: 1; padding: 12px; border-radius: 100px;
+  border: 0.5px solid var(--edge-subtle);
+  background: var(--glass-secondary);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; text-align: center;
+  transition: all 210ms ease-out;
+}
+.flow-btn.selected {
+  background: var(--glass-selected);
+  border-color: var(--edge-accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+.flow-btn:active { transform: scale(0.95); transition: transform 80ms ease-out; }
+
+.period-date-row { display: flex; gap: 12px; align-items: center; }
+.period-date-row .to-label { color: var(--text-secondary); font-size: 13px; font-weight: 500; }
+
+/* ═══════════════ Responsive ═══════════════ */
+@media (max-width: 374px) {
+  .weight-dual { grid-template-columns: 1fr; }
+  .exercise-type-grid { grid-template-columns: repeat(3, 1fr); }
+  .dashboard-grid { grid-template-columns: 1fr 1fr; }
+  .tab-nav button { font-size: 11px; padding: 10px 2px; }
+  .tab-nav .tab-icon { font-size: 22px; }
+}
+
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  body { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+}
+
+/* ═══════════════ Scrollbar — Subtle glass ═══════════════ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.12);
+  border-radius: 4px;
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-header">
+<div class="app-header">
+  <h1>生活习惯打卡</h1>
+  <div class="date" id="headerDate"></div>
+</div>
+<div class="tab-nav">
+  <button class="active" data-tab="weight"><span class="tab-icon">⚖️</span>体重</button>
+  <button data-tab="period"><span class="tab-icon">📅</span>月经</button>
+  <button data-tab="exercise"><span class="tab-icon">🏃</span>运动</button>
+  <button data-tab="dashboard"><span class="tab-icon">📊</span>看板</button>
+</div>
+</div>
+
+<!-- Weight Tab -->
+<div class="tab-content active" id="tab-weight">
+  <div class="card">
+    <div class="card-title" style="justify-content:space-between;">
+      <span>体重记录</span>
+      <span id="weightBadge" style="font-size:12px;color:var(--text-secondary);font-weight:500;"></span>
+    </div>
+    <div class="input-group" style="margin-bottom:12px;">
+      <label>日期</label>
+      <input type="date" id="weightDate" onchange="checkWeightDate()">
+    </div>
+    <div class="input-row">
+      <div class="input-group"><label>晨重 (空腹)</label><input type="number" id="morningWeight" placeholder="kg" step="0.1" min="30" max="200"></div>
+      <div class="input-group"><label>晚重 (睡前)</label><input type="number" id="eveningWeight" placeholder="kg" step="0.1" min="30" max="200"></div>
+    </div>
+    <button class="btn btn-primary full-width" onclick="saveWeight()">保存体重</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">最近记录</div>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="日" onclick="setWeightFilter('日',this)">日</button>
+      <button class="filter-btn" data-filter="周" onclick="setWeightFilter('周',this)">周</button>
+      <button class="filter-btn" data-filter="月" onclick="setWeightFilter('月',this)">月</button>
+      <button class="filter-btn" data-filter="年" onclick="setWeightFilter('年',this)">年</button>
+      <button class="filter-btn" data-filter="总" onclick="setWeightFilter('总',this)">总</button>
+    </div>
+    <div class="filter-nav" id="weightFilterNav" style="display:none;">
+      <button class="nav-arrow" onclick="shiftWeightFilter(-1)">‹</button>
+      <span class="nav-label" id="weightFilterLabel"></span>
+      <button class="nav-arrow" onclick="shiftWeightFilter(1)">›</button>
+    </div>
+    <div id="weightRecent"></div>
+  </div>
+</div>
+
+<!-- Period Tab -->
+<div class="tab-content" id="tab-period">
+  <div class="card">
+    <div class="card-title">周期概览</div>
+    <div class="period-visual">
+      <div class="cycle-ring">
+        <canvas id="cycleRing" width="140" height="140"></canvas>
+        <div class="cycle-info"><div class="days" id="cycleDays">--</div><div class="sub">当前周期</div></div>
+      </div>
+      <div class="period-stats">
+        <div class="period-stat"><span>平均周期</span><span class="stat-val" id="avgCycle">-- 天</span></div>
+        <div class="period-stat"><span>平均经期</span><span class="stat-val" id="avgPeriod">-- 天</span></div>
+        <div class="period-stat"><span>预测下次</span><span class="stat-val" id="predictNext">--</span></div>
+        <div class="period-stat"><span>已记录</span><span class="stat-val" id="totalPeriods">-- 次</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">日历</div>
+    <div class="mini-calendar" id="miniCalendar"></div>
+    <div style="display:flex;gap:14px;font-size:11px;margin-top:8px;color:var(--text-secondary);font-weight:500;">
+      <span>● 经期</span><span>● 易孕期</span><span>● 排卵日</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">记录经期</div>
+    <div class="period-date-row" style="margin-bottom:12px;">
+      <div class="input-group"><label>开始日期</label><input type="date" id="periodStart"></div>
+      <span class="to-label">至</span>
+      <div class="input-group"><label>结束日期</label><input type="date" id="periodEnd"></div>
+    </div>
+    <label style="font-size:12px;color:var(--text-secondary);font-weight:500;">流量</label>
+    <div class="flow-row">
+      <button class="flow-btn" data-flow="light" onclick="selectFlow(this)">少量</button>
+      <button class="flow-btn" data-flow="medium-flow" onclick="selectFlow(this)">正常</button>
+      <button class="flow-btn" data-flow="heavy" onclick="selectFlow(this)">较多</button>
+    </div>
+    <label style="font-size:12px;color:var(--text-secondary);font-weight:500;">症状</label>
+    <div class="period-symptoms" id="periodSymptoms">
+      <span class="symptom-tag" data-symptom="腹痛" onclick="this.classList.toggle('selected')">腹痛</span>
+      <span class="symptom-tag" data-symptom="腰酸" onclick="this.classList.toggle('selected')">腰酸</span>
+      <span class="symptom-tag" data-symptom="头痛" onclick="this.classList.toggle('selected')">头痛</span>
+      <span class="symptom-tag" data-symptom="乏力" onclick="this.classList.toggle('selected')">乏力</span>
+      <span class="symptom-tag" data-symptom="情绪波动" onclick="this.classList.toggle('selected')">情绪波动</span>
+      <span class="symptom-tag" data-symptom="乳房胀痛" onclick="this.classList.toggle('selected')">乳房胀痛</span>
+      <span class="symptom-tag" data-symptom="食欲变化" onclick="this.classList.toggle('selected')">食欲变化</span>
+      <span class="symptom-tag" data-symptom="无" onclick="this.classList.toggle('selected')">无</span>
+    </div>
+    <button class="btn btn-primary full-width" onclick="savePeriod()">保存经期记录</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">历史记录</div>
+    <div id="periodHistory"></div>
+  </div>
+</div>
+
+<!-- Exercise Tab -->
+<div class="tab-content" id="tab-exercise">
+  <div class="card">
+    <div class="card-title" style="justify-content:space-between;">
+      <span>运动记录</span>
+      <span id="exerciseBadge" style="font-size:12px;color:var(--text-secondary);font-weight:500;"></span>
+    </div>
+    <div class="input-group" style="margin-bottom:12px;">
+      <label>日期</label>
+      <input type="date" id="exerciseDate" onchange="checkExerciseDate()">
+    </div>
+    <label style="font-size:12px;color:var(--text-secondary);font-weight:500;">类型</label>
+    <div class="exercise-type-grid" id="exerciseTypes">
+      <div class="exercise-type-item" data-type="跑步" onclick="selectExerciseType(this)"><span class="emoji">🏃</span>跑步</div>
+      <div class="exercise-type-item" data-type="快走" onclick="selectExerciseType(this)"><span class="emoji">🚶</span>快走</div>
+      <div class="exercise-type-item" data-type="跳绳" onclick="selectExerciseType(this)"><span class="emoji">🪢</span>跳绳</div>
+      <div class="exercise-type-item" data-type="瑜伽" onclick="selectExerciseType(this)"><span class="emoji">🧘</span>瑜伽</div>
+      <div class="exercise-type-item" data-type="力量" onclick="selectExerciseType(this)"><span class="emoji">🏋️</span>力量</div>
+      <div class="exercise-type-item" data-type="游泳" onclick="selectExerciseType(this)"><span class="emoji">🏊</span>游泳</div>
+      <div class="exercise-type-item" data-type="骑行" onclick="selectExerciseType(this)"><span class="emoji">🚴</span>骑行</div>
+      <div class="exercise-type-item" data-type="其他" onclick="selectExerciseType(this)"><span class="emoji">🎯</span>其他</div>
+    </div>
+    <label style="font-size:12px;color:var(--text-secondary);font-weight:500;">强度</label>
+    <div class="intensity-row">
+      <button class="intensity-btn" data-intensity="low" onclick="selectIntensity(this)">低</button>
+      <button class="intensity-btn" data-intensity="medium" onclick="selectIntensity(this)">中</button>
+      <button class="intensity-btn" data-intensity="high" onclick="selectIntensity(this)">高</button>
+    </div>
+    <label style="font-size:12px;color:var(--text-secondary);font-weight:500;">时长</label>
+    <div class="input-row" style="margin-bottom:12px;">
+      <div class="input-group"><input type="number" id="exerciseHours" placeholder="小时" min="0" max="24" value="0"></div>
+      <div class="input-group"><input type="number" id="exerciseMinutes" placeholder="分钟" min="0" max="59" value="30"></div>
+    </div>
+    <div class="input-group" style="margin-bottom:14px;">
+      <label>备注 <span style="font-weight:400;text-transform:none;">（选填）</span></label>
+      <input type="text" id="exerciseNote" placeholder="户外跑5公里、帕梅拉HIT…" maxlength="100">
+    </div>
+    <button class="btn btn-primary full-width" onclick="saveExercise()">保存运动</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">最近记录</div>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="日" onclick="setExerciseFilter('日',this)">日</button>
+      <button class="filter-btn" data-filter="周" onclick="setExerciseFilter('周',this)">周</button>
+      <button class="filter-btn" data-filter="月" onclick="setExerciseFilter('月',this)">月</button>
+      <button class="filter-btn" data-filter="年" onclick="setExerciseFilter('年',this)">年</button>
+      <button class="filter-btn" data-filter="总" onclick="setExerciseFilter('总',this)">总</button>
+    </div>
+    <div class="filter-nav" id="exerciseFilterNav" style="display:none;">
+      <button class="nav-arrow" onclick="shiftExerciseFilter(-1)">‹</button>
+      <span class="nav-label" id="exerciseFilterLabel"></span>
+      <button class="nav-arrow" onclick="shiftExerciseFilter(1)">›</button>
+    </div>
+    <div id="exerciseHistory"></div>
+  </div>
+</div>
+
+<!-- Dashboard Tab -->
+<div class="tab-content" id="tab-dashboard">
+  <div class="dashboard-grid">
+    <div class="stat-card">
+      <div class="stat-num" id="statTotalDays" style="color:var(--primary);">0</div>
+      <div class="stat-label">累计打卡天数</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="statStreak" style="color:var(--success);">0</div>
+      <div class="stat-label">连续打卡</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="statExercise" style="color:var(--warning);">0</div>
+      <div class="stat-label" id="statExerciseLabel">本月运动次数</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="statWeightChange" style="color:var(--danger);">--</div>
+      <div class="stat-label">7天体重变化</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">体重趋势（近30天）</div>
+    <div class="chart-container"><canvas id="weightChart"></canvas></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="justify-content:space-between;">
+      <span>运动分布</span>
+      <div style="display:flex;gap:2px;">
+        <button class="nav-arrow" onclick="shiftDashboardMonth(-1)" style="width:30px;height:30px;font-size:16px;">‹</button>
+        <span id="dashboardMonthLabel" style="font-size:13px;font-weight:600;line-height:30px;min-width:60px;text-align:center;"></span>
+        <button class="nav-arrow" onclick="shiftDashboardMonth(1)" style="width:30px;height:30px;font-size:16px;">›</button>
+      </div>
+    </div>
+    <div class="chart-container"><canvas id="exerciseChart"></canvas></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">打卡热力图（近90天）</div>
+    <div class="heatmap" id="heatmap"></div>
+    <div class="heatmap-labels"><span>90天前</span><span>今天</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">数据导出</div>
+    <div style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">导出全部历史数据为 Excel 表格</div>
+    <button class="btn btn-outline full-width" onclick="exportToExcel()">导出 Excel (.xlsx)</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── Storage ───
+var STORAGE_KEY = 'habit_tracker_data';
+
+var SEED_WEIGHTS = [
+  { date: "2026-05-17", morning: 60.7, evening: 61.6, bmi: 25.3 },
+  { date: "2026-05-18", morning: 61.2, evening: 60.9, bmi: 25.5 },
+  { date: "2026-05-19", morning: 60.5, evening: 61.4, bmi: 25.2 },
+  { date: "2026-05-20", morning: 60.9, evening: 60.9, bmi: 25.3 },
+  { date: "2026-05-21", morning: 60.3, evening: 60.7, bmi: 25.1 },
+  { date: "2026-05-22", morning: 60.0, evening: 61.1, bmi: 25.0 },
+  { date: "2026-05-23", morning: 60.2, evening: 60.6, bmi: 25.1 },
+  { date: "2026-05-24", morning: 60.0, evening: 60.7, bmi: 25.0 },
+  { date: "2026-05-25", morning: 60.2, evening: 60.6, bmi: 25.1 },
+  { date: "2026-05-26", morning: 59.9, evening: 60.9, bmi: 24.9 },
+  { date: "2026-05-27", morning: 60.5, evening: null, bmi: 25.2 }
+];
+
+function loadData() {
+  var raw = localStorage.getItem(STORAGE_KEY);
+  if (raw) {
+    var d = JSON.parse(raw);
+    if (!d.weights || d.weights.length === 0) { d.weights = SEED_WEIGHTS; localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+    return d;
+  }
+  return { weights: SEED_WEIGHTS, periods: [], exercises: [] };
+}
+
+function saveData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+
+var data = loadData();
+
+// ─── Utilities ───
+function today() { return new Date().toISOString().split('T')[0]; }
+function fmtDate(d) { return d.replace(/-/g, '/'); }
+function daysBetween(a, b) { return Math.round((new Date(b) - new Date(a)) / 86400000); }
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2000);
+}
+
+function calcBMI(weight) { var h = 1.55; return (weight / (h * h)).toFixed(1); }
+function bmiLabel(bmi) {
+  bmi = parseFloat(bmi);
+  if (bmi < 18.5) return '偏瘦';
+  if (bmi < 24) return '正常';
+  if (bmi < 28) return '偏胖';
+  return '肥胖';
+}
+
+// ─── Tab Navigation ───
+(function() {
+  function setupTabs() {
+    var buttons = document.querySelectorAll('.tab-nav button');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function() {
+        var btns = document.querySelectorAll('.tab-nav button');
+        for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
+        var contents = document.querySelectorAll('.tab-content');
+        for (var k = 0; k < contents.length; k++) contents[k].classList.remove('active');
+        this.classList.add('active');
+        var tabId = this.getAttribute('data-tab');
+        var tabEl = document.getElementById('tab-' + tabId);
+        if (tabEl) tabEl.classList.add('active');
+        if (tabId === 'dashboard') renderDashboard();
+      });
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupTabs);
+  } else {
+    setupTabs();
+  }
+})();
+
+document.getElementById('headerDate').textContent =
+  new Date().toLocaleDateString('zh-CN', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+// ═══════════════ FILTER LOGIC ═══════════════
+
+function getWeekRange(offset) {
+  var now = new Date();
+  var day = now.getDay() || 7;
+  var monday = new Date(now);
+  monday.setDate(now.getDate() - day + 1 + offset * 7);
+  monday.setHours(0, 0, 0, 0);
+  var sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  sunday.setHours(23, 59, 59, 999);
+  return {
+    start: monday,
+    end: sunday,
+    label: monday.getMonth() + 1 + '/' + monday.getDate() + ' – ' + (sunday.getMonth() + 1) + '/' + sunday.getDate()
+  };
+}
+
+function getMonthRange(offset) {
+  var now = new Date();
+  var m = new Date(now.getFullYear(), now.getMonth() + offset, 1);
+  return {
+    year: m.getFullYear(),
+    month: m.getMonth(),
+    label: m.getFullYear() + '年' + (m.getMonth() + 1) + '月'
+  };
+}
+
+function getYearRange(offset) {
+  var now = new Date();
+  var y = now.getFullYear() + offset;
+  return { year: y, label: y + '年' };
+}
+
+function applyFilter(items, filter, offset) {
+  if (filter === '总') return items;
+  var t = today();
+
+  if (filter === '日') {
+    var ref = new Date();
+    ref.setDate(ref.getDate() + offset);
+    var target = ref.toISOString().split('T')[0];
+    return items.filter(function(item) { return item.date === target; });
+  }
+  if (filter === '周') {
+    var wr = getWeekRange(offset);
+    return items.filter(function(item) {
+      var d = new Date(item.date);
+      return d >= wr.start && d <= wr.end;
+    });
+  }
+  if (filter === '月') {
+    var mr = getMonthRange(offset);
+    return items.filter(function(item) {
+      var d = new Date(item.date);
+      return d.getFullYear() === mr.year && d.getMonth() === mr.month;
+    });
+  }
+  if (filter === '年') {
+    var yr = getYearRange(offset);
+    return items.filter(function(item) {
+      return new Date(item.date).getFullYear() === yr.year;
+    });
+  }
+  return items;
+}
+
+function getFilterLabel(filter, offset) {
+  if (filter === '日') {
+    var ref = new Date();
+    ref.setDate(ref.getDate() + offset);
+    return ref.getMonth() + 1 + '月' + ref.getDate() + '日';
+  }
+  if (filter === '周') return getWeekRange(offset).label;
+  if (filter === '月') return getMonthRange(offset).label;
+  if (filter === '年') return getYearRange(offset).label;
+  return '';
+}
+
+// ═══════════════ WEIGHT ═══════════════
+var weightFilter = '日';
+var weightFilterOffset = 0;
+var weightEditing = false;
+
+function renderWeightFilterNav() {
+  var nav = document.getElementById('weightFilterNav');
+  if (!nav) return;
+  if (weightFilter === '日' || weightFilter === '总') {
+    nav.style.display = 'none';
+    return;
+  }
+  nav.style.display = 'flex';
+  document.getElementById('weightFilterLabel').textContent = getFilterLabel(weightFilter, weightFilterOffset);
+}
+
+function setWeightFilter(f, btn) {
+  weightFilter = f;
+  weightFilterOffset = 0;
+  var btns = document.querySelectorAll('#tab-weight .filter-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+  btn.classList.add('active');
+  renderWeightFilterNav();
+  renderWeightRecent();
+}
+
+function shiftWeightFilter(delta) {
+  weightFilterOffset += delta;
+  renderWeightFilterNav();
+  renderWeightRecent();
+}
+
+function saveWeight() {
+  var mw = parseFloat(document.getElementById('morningWeight').value);
+  var ew = parseFloat(document.getElementById('eveningWeight').value);
+  if (!mw && !ew) { showToast('请至少输入一个体重值'); return; }
+  var date = document.getElementById('weightDate').value || today();
+  var record = {
+    date: date,
+    morning: mw || null,
+    evening: ew || null,
+    bmi: mw ? parseFloat(calcBMI(mw)) : null
+  };
+
+  if (weightEditing) {
+    var ei = -1;
+    for (var i = 0; i < data.weights.length; i++) { if (data.weights[i].date === weightEditing) { ei = i; break; } }
+    if (ei >= 0) data.weights[ei] = record;
+    weightEditing = false;
+  } else {
+    var existing = -1;
+    for (var i = 0; i < data.weights.length; i++) { if (data.weights[i].date === date) { existing = i; break; } }
+    if (existing >= 0) data.weights[existing] = record;
+    else data.weights.push(record);
+  }
+
+  data.weights.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+  saveData(data);
+  renderWeightRecent();
+  showToast(date !== today() ? '已补卡 ' + fmtDate(date) : '体重已保存');
+  resetWeightForm();
+}
+
+function resetWeightForm() {
+  document.getElementById('morningWeight').value = '';
+  document.getElementById('eveningWeight').value = '';
+  document.getElementById('weightDate').value = today();
+  document.getElementById('weightBadge').textContent = '';
+  document.querySelector('#tab-weight .btn-primary').textContent = '保存体重';
+  weightEditing = false;
+}
+
+function editWeight(date) {
+  var w = null;
+  for (var i = 0; i < data.weights.length; i++) { if (data.weights[i].date === date) { w = data.weights[i]; break; } }
+  if (!w) return;
+  weightEditing = date;
+  document.getElementById('weightDate').value = w.date;
+  document.getElementById('morningWeight').value = w.morning || '';
+  document.getElementById('eveningWeight').value = w.evening || '';
+  document.getElementById('weightBadge').textContent = '编辑中';
+  document.getElementById('weightBadge').style.color = 'var(--primary)';
+  document.querySelector('#tab-weight .btn-primary').textContent = '更新体重';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkWeightDate() {
+  var date = document.getElementById('weightDate').value;
+  var badge = document.getElementById('weightBadge');
+  if (!date) { badge.textContent = ''; return; }
+  if (weightEditing) {
+    badge.textContent = '编辑中';
+    badge.style.color = 'var(--primary)';
+    return;
+  }
+  var exists = false;
+  for (var i = 0; i < data.weights.length; i++) { if (data.weights[i].date === date) { exists = true; break; } }
+  if (exists) { badge.textContent = '该日已有记录，保存将覆盖'; badge.style.color = 'var(--warning)'; }
+  else if (date !== today()) { badge.textContent = '补卡模式'; badge.style.color = 'var(--primary)'; }
+  else { badge.textContent = ''; }
+}
+
+function renderWeightRecent() {
+  var container = document.getElementById('weightRecent');
+  if (!container) return;
+  var filtered = applyFilter(data.weights, weightFilter, weightFilterOffset);
+  if (!filtered.length) {
+    var label = getFilterLabel(weightFilter, weightFilterOffset) || (weightFilter === '总' ? '全部' : '');
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">⚖️</div><div class="empty-text">暂无' + label + '体重记录</div></div>';
+    return;
+  }
+  container.innerHTML = filtered.map(function(w) {
+    var morning = w.morning ? w.morning + 'kg' : '--';
+    var evening = w.evening ? w.evening + 'kg' : '--';
+    var diff = (w.morning && w.evening) ? (w.evening - w.morning).toFixed(1) : null;
+    var diffStr = diff ? (diff > 0 ? '+' + diff : diff) : '';
+    var bmiStr = w.bmi ? 'BMI ' + w.bmi + ' (' + bmiLabel(w.bmi) + ')' : '';
+    return '<div class="history-item">' +
+      '<div class="hi-info"><div>' + fmtDate(w.date) + '</div>' +
+      '<div class="hi-date">晨 ' + morning + ' | 晚 ' + evening + (diffStr ? ' | 差 ' + diffStr + 'kg' : '') + ' | ' + bmiStr + '</div></div>' +
+      '<div class="hi-actions">' +
+      '<button class="hi-edit" onclick="editWeight(\'' + w.date + '\')">✏️</button>' +
+      '<button class="hi-delete" onclick="deleteWeight(\'' + w.date + '\')">×</button>' +
+      '</div></div>';
+  }).join('');
+}
+
+function deleteWeight(date) {
+  data.weights = data.weights.filter(function(w) { return w.date !== date; });
+  saveData(data);
+  renderWeightRecent();
+  showToast('已删除');
+}
+
+// ═══════════════ PERIOD ═══════════════
+var periodState = { flow: 'medium-flow', symptoms: [] };
+
+function selectFlow(btn) {
+  var btns = document.querySelectorAll('.flow-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].className = 'flow-btn';
+  var flow = btn.dataset.flow;
+  btn.classList.add('selected');
+  periodState.flow = flow;
+}
+
+function savePeriod() {
+  var start = document.getElementById('periodStart').value;
+  var end = document.getElementById('periodEnd').value;
+  if (!start) { showToast('请选择开始日期'); return; }
+  if (!end) { showToast('请选择结束日期'); return; }
+  if (new Date(end) < new Date(start)) { showToast('结束日期不能早于开始日期'); return; }
+
+  var symptoms = [];
+  var tags = document.querySelectorAll('#periodSymptoms .symptom-tag.selected');
+  for (var i = 0; i < tags.length; i++) symptoms.push(tags[i].dataset.symptom);
+
+  data.periods.push({ start: start, end: end, flow: periodState.flow, symptoms: symptoms });
+  data.periods.sort(function(a, b) { return new Date(b.start) - new Date(a.start); });
+  saveData(data);
+  renderPeriodAll();
+  showToast('经期已记录');
+  document.getElementById('periodStart').value = '';
+  document.getElementById('periodEnd').value = '';
+  var fbs = document.querySelectorAll('.flow-btn');
+  for (var j = 0; j < fbs.length; j++) fbs[j].className = 'flow-btn';
+  var sts = document.querySelectorAll('#periodSymptoms .symptom-tag.selected');
+  for (var k = 0; k < sts.length; k++) sts[k].classList.remove('selected');
+  periodState = { flow: 'medium-flow', symptoms: [] };
+}
+
+function deletePeriod(idx) {
+  data.periods.splice(idx, 1);
+  saveData(data);
+  renderPeriodAll();
+  showToast('已删除');
+}
+
+function getPeriodDaysInMonth(year, month) {
+  var days = [];
+  for (var i = 0; i < data.periods.length; i++) {
+    var p = data.periods[i];
+    var start = new Date(p.start);
+    var end = new Date(p.end);
+    var d = new Date(start);
+    while (d <= end) {
+      if (d.getFullYear() === year && d.getMonth() === month) days.push(d.getDate());
+      d.setDate(d.getDate() + 1);
+    }
+  }
+  return days;
+}
+
+function getFertileDays(lastPeriodStart, cycleLength) {
+  if (!cycleLength || cycleLength <= 0) return { fertile: [], ovulation: null };
+  var fertileStart = new Date(lastPeriodStart);
+  var ovulationDay = cycleLength - 14;
+  fertileStart.setDate(fertileStart.getDate() + ovulationDay - 5);
+  var fertileEnd = new Date(lastPeriodStart);
+  fertileEnd.setDate(fertileEnd.getDate() + ovulationDay);
+  var fertile = [];
+  var d = new Date(fertileStart);
+  while (d <= fertileEnd) { fertile.push(d.getDate()); d.setDate(d.getDate() + 1); }
+  var ov = new Date(lastPeriodStart);
+  ov.setDate(ov.getDate() + ovulationDay);
+  return { fertile: fertile, ovulation: ov.getDate() };
+}
+
+function renderPeriodAll() {
+  renderCycleRing();
+  renderMiniCalendar();
+  renderPeriodHistory();
+  renderPeriodStats();
+}
+
+function renderPeriodStats() {
+  if (data.periods.length < 1) {
+    document.getElementById('avgCycle').textContent = '-- 天';
+    document.getElementById('avgPeriod').textContent = '-- 天';
+    document.getElementById('predictNext').textContent = '--';
+    document.getElementById('totalPeriods').textContent = '0 次';
+    return;
+  }
+  var lengths = data.periods.map(function(p) { return daysBetween(p.start, p.end) + 1; });
+  var sum = 0;
+  for (var i = 0; i < lengths.length; i++) sum += lengths[i];
+  document.getElementById('avgPeriod').textContent = Math.round(sum / lengths.length) + ' 天';
+
+  var sorted = [].concat(data.periods).sort(function(a, b) { return new Date(a.start) - new Date(b.start); });
+  var cycles = [];
+  for (var j = 1; j < sorted.length; j++) cycles.push(daysBetween(sorted[j-1].start, sorted[j].start));
+  var avgCycleLen = cycles.length ? Math.round(cycles.reduce(function(a,b){return a+b;},0) / cycles.length) : 28;
+  document.getElementById('avgCycle').textContent = avgCycleLen + ' 天';
+
+  if (cycles.length > 0 && data.periods.length > 0) {
+    var lastStart = new Date(data.periods[0].start);
+    var nextStart = new Date(lastStart);
+    nextStart.setDate(nextStart.getDate() + avgCycleLen);
+    document.getElementById('predictNext').textContent = nextStart.toLocaleDateString('zh-CN', { month:'short', day:'numeric' });
+  } else {
+    document.getElementById('predictNext').textContent = '数据不足';
+  }
+  document.getElementById('totalPeriods').textContent = data.periods.length + ' 次';
+
+  if (data.periods.length > 0) {
+    var ls = new Date(data.periods[0].start);
+    document.getElementById('cycleDays').textContent = daysBetween(ls.toISOString().split('T')[0], today()) + 1;
+  }
+}
+
+function renderCycleRing() {
+  var canvas = document.getElementById('cycleRing');
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, 140, 140);
+  var cx = 70, cy = 70, r = 60, sw = 8;
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.strokeStyle = '#E5E5EA';
+  ctx.lineWidth = sw;
+  ctx.stroke();
+
+  if (data.periods.length < 1) return;
+
+  var sorted = [].concat(data.periods).sort(function(a,b){ return new Date(a.start) - new Date(b.start); });
+  var cycles = [];
+  for (var i = 1; i < sorted.length; i++) cycles.push(daysBetween(sorted[i-1].start, sorted[i].start));
+  var cycleLength = cycles.length ? Math.round(cycles.reduce(function(a,b){return a+b;},0) / cycles.length) : 28;
+
+  var lastStart = new Date(data.periods[0].start);
+  var daysSince = daysBetween(lastStart.toISOString().split('T')[0], today());
+  var currentDay = Math.min(daysSince + 1, cycleLength);
+  var progress = currentDay / cycleLength;
+
+  var lens = data.periods.map(function(p){ return daysBetween(p.start, p.end) + 1; });
+  var sum = 0;
+  for (var k = 0; k < lens.length; k++) sum += lens[k];
+  var periodLen = Math.round(sum / lens.length);
+  var periodRatio = periodLen / cycleLength;
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + periodRatio * Math.PI * 2);
+  ctx.strokeStyle = '#FF3B30';
+  ctx.lineWidth = sw;
+  ctx.stroke();
+
+  var fs = (cycleLength - 14 - 5) / cycleLength;
+  var fe = (cycleLength - 14) / cycleLength;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r - 2, -Math.PI / 2 + fs * Math.PI * 2, -Math.PI / 2 + fe * Math.PI * 2);
+  ctx.strokeStyle = '#34C759';
+  ctx.lineWidth = 5;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, r + 2, -Math.PI / 2, -Math.PI / 2 + progress * Math.PI * 2);
+  ctx.strokeStyle = '#007AFF';
+  ctx.lineWidth = 3;
+  ctx.setLineDash([4, 3]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function renderMiniCalendar() {
+  var container = document.getElementById('miniCalendar');
+  var now = new Date();
+  var year = now.getFullYear(), month = now.getMonth();
+  var firstDay = new Date(year, month, 1).getDay();
+  var daysInMonth = new Date(year, month + 1, 0).getDate();
+  var todayDate = now.getDate();
+  var periodDays = getPeriodDaysInMonth(year, month);
+
+  var fertileDays = [], ovulationDay = null;
+  if (data.periods.length > 0) {
+    var sorted = [].concat(data.periods).sort(function(a,b){ return new Date(a.start) - new Date(b.start); });
+    var cycles = [];
+    for (var i = 1; i < sorted.length; i++) cycles.push(daysBetween(sorted[i-1].start, sorted[i].start));
+    var avgCycle = cycles.length ? Math.round(cycles.reduce(function(a,b){return a+b;},0)/cycles.length) : 28;
+    var lastPeriod = new Date(data.periods[0].start);
+    var np = new Date(lastPeriod);
+    np.setDate(np.getDate() + avgCycle);
+    if (np.getMonth() === month && np.getFullYear() === year) {
+      var ovDay = avgCycle - 14;
+      var fs = new Date(lastPeriod);
+      fs.setDate(fs.getDate() + ovDay - 5);
+      var fe2 = new Date(lastPeriod);
+      fe2.setDate(fe2.getDate() + ovDay);
+      var d = new Date(fs);
+      while (d <= fe2) {
+        if (d.getFullYear() === year && d.getMonth() === month) fertileDays.push(d.getDate());
+        d.setDate(d.getDate() + 1);
+      }
+      var ov = new Date(lastPeriod);
+      ov.setDate(ov.getDate() + ovDay);
+      if (ov.getFullYear() === year && ov.getMonth() === month) ovulationDay = ov.getDate();
+    }
+  }
+
+  var html = '<div class="day-header">日</div><div class="day-header">一</div><div class="day-header">二</div><div class="day-header">三</div><div class="day-header">四</div><div class="day-header">五</div><div class="day-header">六</div>';
+  for (var j = 0; j < firstDay; j++) html += '<div class="day-cell empty"></div>';
+  for (var d2 = 1; d2 <= daysInMonth; d2++) {
+    var cls = 'day-cell';
+    if (d2 === todayDate) cls += ' today';
+    if (periodDays.indexOf(d2) >= 0) cls += ' period';
+    if (d2 === ovulationDay) cls += ' ovulation';
+    else if (fertileDays.indexOf(d2) >= 0) cls += ' fertile';
+    html += '<div class="' + cls + '">' + d2 + '</div>';
+  }
+  container.innerHTML = html;
+}
+
+function renderPeriodHistory() {
+  var container = document.getElementById('periodHistory');
+  if (!data.periods.length) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">暂无经期记录</div></div>';
+    return;
+  }
+  var flowLabels = { light: '少量', 'medium-flow': '正常', heavy: '较多' };
+  container.innerHTML = data.periods.map(function(p, i) {
+    var len = daysBetween(p.start, p.end) + 1;
+    var symptoms = p.symptoms ? p.symptoms.join('、') : '';
+    return '<div class="history-item">' +
+      '<div class="hi-info"><div>' + fmtDate(p.start) + ' ~ ' + fmtDate(p.end) + ' (' + len + '天)</div>' +
+      '<div class="hi-date">' + (flowLabels[p.flow] || p.flow) + (symptoms ? ' | ' + symptoms : '') + '</div></div>' +
+      '<button class="hi-delete" onclick="deletePeriod(' + i + ')">×</button></div>';
+  }).join('');
+}
+
+// ═══════════════ EXERCISE ═══════════════
+var exerciseState = { type: null, intensity: null };
+var exerciseFilter = '日';
+var exerciseFilterOffset = 0;
+var exerciseEditingIdx = -1;
+
+function renderExerciseFilterNav() {
+  var nav = document.getElementById('exerciseFilterNav');
+  if (!nav) return;
+  if (exerciseFilter === '日' || exerciseFilter === '总') {
+    nav.style.display = 'none';
+    return;
+  }
+  nav.style.display = 'flex';
+  document.getElementById('exerciseFilterLabel').textContent = getFilterLabel(exerciseFilter, exerciseFilterOffset);
+}
+
+function setExerciseFilter(f, btn) {
+  exerciseFilter = f;
+  exerciseFilterOffset = 0;
+  var btns = document.querySelectorAll('#tab-exercise .filter-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+  btn.classList.add('active');
+  renderExerciseFilterNav();
+  renderExerciseHistory();
+}
+
+function shiftExerciseFilter(delta) {
+  exerciseFilterOffset += delta;
+  renderExerciseFilterNav();
+  renderExerciseHistory();
+}
+
+function selectExerciseType(item) {
+  var items = document.querySelectorAll('.exercise-type-item');
+  for (var i = 0; i < items.length; i++) items[i].classList.remove('selected');
+  item.classList.add('selected');
+  exerciseState.type = item.dataset.type;
+}
+
+function selectIntensity(btn) {
+  var btns = document.querySelectorAll('.intensity-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].className = 'intensity-btn';
+  btn.classList.add('selected');
+  exerciseState.intensity = btn.dataset.intensity;
+}
+
+function saveExercise() {
+  if (!exerciseState.type) { showToast('请选择运动类型'); return; }
+  if (!exerciseState.intensity) { showToast('请选择运动强度'); return; }
+  var hours = parseInt(document.getElementById('exerciseHours').value) || 0;
+  var minutes = parseInt(document.getElementById('exerciseMinutes').value) || 0;
+  var duration = hours * 60 + minutes;
+  if (duration < 1) { showToast('请输入有效时长'); return; }
+
+  var date = document.getElementById('exerciseDate').value || today();
+  var note = document.getElementById('exerciseNote').value.trim() || null;
+  var record = { date: date, type: exerciseState.type, intensity: exerciseState.intensity, duration: duration, note: note };
+
+  if (exerciseEditingIdx >= 0) {
+    data.exercises[exerciseEditingIdx] = record;
+    exerciseEditingIdx = -1;
+  } else {
+    data.exercises.push(record);
+  }
+  data.exercises.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+  saveData(data);
+  renderExerciseHistory();
+  showToast(date !== today() ? '已补卡 ' + fmtDate(date) : '运动已记录');
+  resetExerciseForm();
+}
+
+function resetExerciseForm() {
+  document.getElementById('exerciseHours').value = '0';
+  document.getElementById('exerciseMinutes').value = '30';
+  document.getElementById('exerciseNote').value = '';
+  document.getElementById('exerciseDate').value = today();
+  var items = document.querySelectorAll('.exercise-type-item');
+  for (var i = 0; i < items.length; i++) items[i].classList.remove('selected');
+  var btns = document.querySelectorAll('.intensity-btn');
+  for (var j = 0; j < btns.length; j++) btns[j].className = 'intensity-btn';
+  document.getElementById('exerciseBadge').textContent = '';
+  document.querySelector('#tab-exercise .btn-primary').textContent = '保存运动';
+  exerciseState = { type: null, intensity: null };
+  exerciseEditingIdx = -1;
+}
+
+function editExercise(idx) {
+  var e = data.exercises[idx];
+  if (!e) return;
+  exerciseEditingIdx = idx;
+  exerciseState.type = e.type;
+  exerciseState.intensity = e.intensity;
+  document.getElementById('exerciseDate').value = e.date;
+  document.getElementById('exerciseHours').value = Math.floor(e.duration / 60);
+  document.getElementById('exerciseMinutes').value = e.duration % 60;
+  document.getElementById('exerciseNote').value = e.note || '';
+  document.getElementById('exerciseBadge').textContent = '编辑中';
+  document.getElementById('exerciseBadge').style.color = 'var(--primary)';
+  document.querySelector('#tab-exercise .btn-primary').textContent = '更新运动';
+  var items = document.querySelectorAll('.exercise-type-item');
+  for (var i = 0; i < items.length; i++) {
+    if (items[i].dataset.type === e.type) items[i].classList.add('selected');
+    else items[i].classList.remove('selected');
+  }
+  var btns = document.querySelectorAll('.intensity-btn');
+  for (var j = 0; j < btns.length; j++) {
+    btns[j].className = 'intensity-btn';
+    if (btns[j].dataset.intensity === e.intensity) btns[j].classList.add('selected');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkExerciseDate() {
+  var date = document.getElementById('exerciseDate').value;
+  var badge = document.getElementById('exerciseBadge');
+  if (!date) { badge.textContent = ''; return; }
+  if (exerciseEditingIdx >= 0) {
+    badge.textContent = '编辑中';
+    badge.style.color = 'var(--primary)';
+    return;
+  }
+  if (date !== today()) { badge.textContent = '补卡模式'; badge.style.color = 'var(--primary)'; }
+  else { badge.textContent = ''; }
+}
+
+function renderExerciseHistory() {
+  var container = document.getElementById('exerciseHistory');
+  if (!container) return;
+  var filtered = applyFilter(data.exercises, exerciseFilter, exerciseFilterOffset);
+  if (!filtered.length) {
+    var label = getFilterLabel(exerciseFilter, exerciseFilterOffset) || (exerciseFilter === '总' ? '全部' : '');
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏃</div><div class="empty-text">暂无' + label + '运动记录</div></div>';
+    return;
+  }
+  var intensities = { low: '低', medium: '中', high: '高' };
+  container.innerHTML = filtered.map(function(e) {
+    var globalIdx = -1;
+    for (var i = 0; i < data.exercises.length; i++) {
+      if (data.exercises[i] === e) { globalIdx = i; break; }
+    }
+    var h = Math.floor(e.duration / 60);
+    var m = e.duration % 60;
+    var durStr = h > 0 ? (m > 0 ? h + '小时' + m + '分' : h + '小时') : m + '分';
+    return '<div class="history-item">' +
+      '<div class="hi-info"><div>' + fmtDate(e.date) + '  ' + e.type + ' · ' + durStr + '</div>' +
+      '<div class="hi-date">' + intensities[e.intensity] + '强度' + (e.note ? ' · ' + e.note : '') + '</div></div>' +
+      '<div class="hi-actions">' +
+      '<button class="hi-edit" onclick="editExercise(' + globalIdx + ')">✏️</button>' +
+      '<button class="hi-delete" onclick="deleteExercise(' + globalIdx + ')">×</button>' +
+      '</div></div>';
+  }).join('');
+}
+
+function deleteExercise(idx) {
+  data.exercises.splice(idx, 1);
+  saveData(data);
+  renderExerciseHistory();
+  showToast('已删除');
+}
+
+// ═══════════════ DASHBOARD ═══════════════
+var weightChartInst = null;
+var exerciseChartInst = null;
+var dashboardMonthOffset = 0;
+
+function getCheckinDays() {
+  var days = {};
+  for (var i = 0; i < data.weights.length; i++) days[data.weights[i].date] = true;
+  for (var j = 0; j < data.exercises.length; j++) days[data.exercises[j].date] = true;
+  for (var k = 0; k < data.periods.length; k++) {
+    var start = new Date(data.periods[k].start);
+    var end = new Date(data.periods[k].end);
+    var d = new Date(start);
+    while (d <= end) { days[d.toISOString().split('T')[0]] = true; d.setDate(d.getDate() + 1); }
+  }
+  var result = [];
+  for (var key in days) { if (days.hasOwnProperty(key)) result.push(key); }
+  return result.sort();
+}
+
+function calcStreak() {
+  var checkinDays = getCheckinDays();
+  if (!checkinDays.length) return 0;
+  checkinDays.sort(function(a,b){ return new Date(b) - new Date(a); });
+  var todayDate = today();
+  var streak = 0;
+  var checkDate = new Date(todayDate);
+  for (var i = 0; i < checkinDays.length; i++) {
+    var dateStr = checkDate.toISOString().split('T')[0];
+    if (checkinDays.indexOf(dateStr) >= 0) {
+      streak++;
+      checkDate.setDate(checkDate.getDate() - 1);
+    } else if (i === 0 && dateStr === todayDate) {
+      checkDate.setDate(checkDate.getDate() - 1);
+      i--;
+      continue;
+    } else {
+      break;
+    }
+  }
+  return streak;
+}
+
+function renderDashboard() {
+  if (typeof Chart === 'undefined') {
+    showToast('图表组件加载中，请稍后再试');
+    return;
+  }
+
+  var checkinDays = getCheckinDays();
+  document.getElementById('statTotalDays').textContent = checkinDays.length;
+  document.getElementById('statStreak').textContent = calcStreak();
+
+  var mr = getMonthRange(dashboardMonthOffset);
+  var monthStart = new Date(mr.year, mr.month, 1);
+  var monthEnd = new Date(mr.year, mr.month + 1, 1);
+  var monthExercises = data.exercises.filter(function(e) {
+    var d = new Date(e.date);
+    return d >= monthStart && d < monthEnd;
+  });
+  document.getElementById('statExercise').textContent = monthExercises.length;
+  document.getElementById('dashboardMonthLabel').textContent = mr.label;
+
+  var now = new Date();
+  var recent7 = [];
+  for (var i = 0; i < data.weights.length; i++) {
+    var w = data.weights[i];
+    var d = new Date(w.date);
+    if ((now - d) / 86400000 <= 7 && w.morning) recent7.push(w);
+  }
+  recent7.sort(function(a,b){ return new Date(a.date) - new Date(b.date); });
+
+  if (recent7.length >= 2) {
+    var diff = (recent7[recent7.length - 1].morning - recent7[0].morning).toFixed(1);
+    document.getElementById('statWeightChange').textContent = (diff > 0 ? '+' : '') + diff + 'kg';
+    document.getElementById('statWeightChange').style.color = diff > 0 ? 'var(--danger)' : 'var(--success)';
+  } else {
+    document.getElementById('statWeightChange').textContent = '--';
+    document.getElementById('statWeightChange').style.color = 'var(--text-secondary)';
+  }
+
+  try { renderWeightChart(); } catch(e) {}
+  try { renderExerciseChart(); } catch(e) {}
+  renderHeatmap();
+}
+
+function shiftDashboardMonth(delta) {
+  dashboardMonthOffset += delta;
+  renderDashboard();
+}
+
+function renderWeightChart() {
+  if (typeof Chart === 'undefined') return;
+  var canvas = document.getElementById('weightChart');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  if (weightChartInst) weightChartInst.destroy();
+
+  var recent30 = [];
+  for (var i = 0; i < data.weights.length; i++) {
+    if (daysBetween(data.weights[i].date, today()) <= 30) recent30.push(data.weights[i]);
+  }
+  recent30.sort(function(a,b){ return new Date(a.date) - new Date(b.date); });
+
+  var emptyEl = canvas.parentElement.querySelector('.empty-state');
+  if (!recent30.length) {
+    if (weightChartInst) { weightChartInst.destroy(); weightChartInst = null; }
+    canvas.style.display = 'none';
+    if (!emptyEl) {
+      emptyEl = document.createElement('div');
+      emptyEl.className = 'empty-state';
+      emptyEl.innerHTML = '<div class="empty-text">暂无数据</div>';
+      canvas.parentElement.appendChild(emptyEl);
+    }
+    return;
+  }
+  canvas.style.display = '';
+  if (emptyEl) emptyEl.remove();
+
+  weightChartInst = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: recent30.map(function(w){ return w.date.slice(5); }),
+      datasets: [
+        {
+          label: '晨重', data: recent30.map(function(w){ return w.morning; }),
+          borderColor: '#007AFF', backgroundColor: 'rgba(0,122,255,0.06)',
+          tension: 0.4, fill: false, pointRadius: 3, pointHoverRadius: 5, spanGaps: true
+        },
+        {
+          label: '晚重', data: recent30.map(function(w){ return w.evening; }),
+          borderColor: '#FF9500', backgroundColor: 'rgba(255,149,0,0.06)',
+          tension: 0.4, fill: false, pointRadius: 3, pointHoverRadius: 5, spanGaps: true
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { boxWidth: 10, padding: 16, font: { size: 12, family: "-apple-system" }, usePointStyle: true } }
+      },
+      scales: {
+        y: { ticks: { callback: function(v){ return v + 'kg'; }, font: { size: 11 } }, grid: { color: '#F2F2F7' } },
+        x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+function renderExerciseChart() {
+  if (typeof Chart === 'undefined') return;
+  var canvas = document.getElementById('exerciseChart');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  if (exerciseChartInst) exerciseChartInst.destroy();
+
+  var mr = getMonthRange(dashboardMonthOffset);
+  var monthStart = new Date(mr.year, mr.month, 1);
+  var monthEnd = new Date(mr.year, mr.month + 1, 1);
+  var monthExercises = data.exercises.filter(function(e) {
+    var d = new Date(e.date);
+    return d >= monthStart && d < monthEnd;
+  });
+
+  var emptyEl = canvas.parentElement.querySelector('.empty-state');
+  if (!monthExercises.length) {
+    if (exerciseChartInst) { exerciseChartInst.destroy(); exerciseChartInst = null; }
+    canvas.style.display = 'none';
+    if (!emptyEl) {
+      emptyEl = document.createElement('div');
+      emptyEl.className = 'empty-state';
+      emptyEl.innerHTML = '<div class="empty-text">' + mr.label + '暂无运动记录</div>';
+      canvas.parentElement.appendChild(emptyEl);
+    } else {
+      emptyEl.querySelector('.empty-text').textContent = mr.label + '暂无运动记录';
+    }
+    return;
+  }
+  canvas.style.display = '';
+  if (emptyEl) emptyEl.remove();
+
+  var byType = {};
+  for (var i = 0; i < monthExercises.length; i++) {
+    var e = monthExercises[i];
+    byType[e.type] = (byType[e.type] || 0) + e.duration;
+  }
+
+  var colors = ['#007AFF','#FF9500','#34C759','#FF3B30','#AF52DE','#5AC8FA','#FFD60A','#8E8E93'];
+
+  exerciseChartInst = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(byType),
+      datasets: [{
+        data: Object.values(byType),
+        backgroundColor: colors.slice(0, Object.keys(byType).length),
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            boxWidth: 10, padding: 12, font: { size: 11, family: "-apple-system" },
+            usePointStyle: true,
+            generateLabels: function(chart) {
+              var d = chart.data;
+              return d.labels.map(function(label, i) {
+                var mm = d.datasets[0].data[i];
+                var hh = Math.floor(mm / 60);
+                var m = mm % 60;
+                var dur = hh > 0 ? (m > 0 ? hh + 'h' + m + 'm' : hh + 'h') : m + 'm';
+                return { text: label + ' ' + dur, fillStyle: d.datasets[0].backgroundColor[i], strokeStyle: 'transparent', index: i, pointStyle: 'circle' };
+              });
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderHeatmap() {
+  var container = document.getElementById('heatmap');
+  var checkinDays = getCheckinDays();
+
+  var days = [];
+  for (var i = 89; i >= 0; i--) {
+    var d = new Date();
+    d.setDate(d.getDate() - i);
+    days.push(d.toISOString().split('T')[0]);
+  }
+
+  var counts = {};
+  for (var j = 0; j < data.weights.length; j++) counts[data.weights[j].date] = (counts[data.weights[j].date] || 0) + 1;
+  for (var k = 0; k < data.exercises.length; k++) counts[data.exercises[k].date] = (counts[data.exercises[k].date] || 0) + 1;
+  for (var p = 0; p < data.periods.length; p++) {
+    var ps = new Date(data.periods[p].start), pe = new Date(data.periods[p].end);
+    var pd = new Date(ps);
+    while (pd <= pe) { var ds = pd.toISOString().split('T')[0]; counts[ds] = (counts[ds] || 0) + 1; pd.setDate(pd.getDate() + 1); }
+  }
+
+  container.innerHTML = days.map(function(d) {
+    var count = counts[d] || 0;
+    var level = count >= 4 ? 4 : count >= 3 ? 3 : count >= 2 ? 2 : count >= 1 ? 1 : 0;
+    return '<div class="heatmap-day level-' + level + '" title="' + d + ': ' + count + ' 次"></div>';
+  }).join('');
+}
+
+// ─── Excel Export ───
+function exportToExcel() {
+  if (typeof XLSX === 'undefined') { showToast('Excel 组件加载中，请稍后再试'); return; }
+  var wb = XLSX.utils.book_new();
+
+  var weightRows = [['日期', '晨重(kg)', '晚重(kg)', '早晚差(kg)', 'BMI', 'BMI状态']];
+  var sw = [].concat(data.weights).sort(function(a,b){ return new Date(a.date) - new Date(b.date); });
+  for (var i = 0; i < sw.length; i++) {
+    var w = sw[i];
+    var diff = (w.morning && w.evening) ? (w.evening - w.morning).toFixed(1) : '';
+    weightRows.push([w.date, w.morning || '', w.evening || '', diff, w.bmi || '', w.bmi ? bmiLabel(w.bmi) : '']);
+  }
+  var ws1 = XLSX.utils.aoa_to_sheet(weightRows);
+  ws1['!cols'] = [{wch:12},{wch:12},{wch:12},{wch:12},{wch:8},{wch:10}];
+  XLSX.utils.book_append_sheet(wb, ws1, '体重记录');
+
+  var periodRows = [['开始日期', '结束日期', '持续天数', '流量', '症状']];
+  var sp = [].concat(data.periods).sort(function(a,b){ return new Date(a.start) - new Date(b.start); });
+  var flowLabels = { light: '少量', 'medium-flow': '正常', heavy: '较多' };
+  for (var j = 0; j < sp.length; j++) {
+    periodRows.push([sp[j].start, sp[j].end, daysBetween(sp[j].start, sp[j].end) + 1, flowLabels[sp[j].flow] || sp[j].flow, (sp[j].symptoms || []).join('、')]);
+  }
+  var ws2 = XLSX.utils.aoa_to_sheet(periodRows);
+  ws2['!cols'] = [{wch:12},{wch:12},{wch:10},{wch:8},{wch:30}];
+  XLSX.utils.book_append_sheet(wb, ws2, '月经记录');
+
+  var exerciseRows = [['日期', '运动类型', '强度', '时长(分钟)', '时长(可读)', '备注']];
+  var se = [].concat(data.exercises).sort(function(a,b){ return new Date(a.date) - new Date(b.date); });
+  var intLabels = { low: '低', medium: '中', high: '高' };
+  for (var k = 0; k < se.length; k++) {
+    var e = se[k];
+    var h = Math.floor(e.duration / 60), m = e.duration % 60;
+    exerciseRows.push([e.date, e.type, intLabels[e.intensity] || e.intensity, e.duration, (h > 0 ? (m > 0 ? h + '小时' + m + '分' : h + '小时') : m + '分'), e.note || '']);
+  }
+  var ws3 = XLSX.utils.aoa_to_sheet(exerciseRows);
+  ws3['!cols'] = [{wch:12},{wch:12},{wch:8},{wch:12},{wch:14},{wch:30}];
+  XLSX.utils.book_append_sheet(wb, ws3, '运动记录');
+
+  XLSX.writeFile(wb, '生活习惯打卡_' + today() + '.xlsx');
+  showToast('导出成功');
+}
+
+// ─── Init ───
+function init() {
+  var ts = today();
+  var wde = document.getElementById('weightDate');
+  var ede = document.getElementById('exerciseDate');
+  if (wde) wde.value = ts;
+  if (ede) ede.value = ts;
+  renderWeightFilterNav();
+  renderExerciseFilterNav();
+  renderWeightRecent();
+  renderPeriodAll();
+  renderExerciseHistory();
+}
+
+init();
+</script>
+
+<script async src="https://cdn.bootcdn.net/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"
+  onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js'"></script>
+<script async src="https://cdn.bootcdn.net/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"
+  onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js'"></script>
+</body>
+</html>
