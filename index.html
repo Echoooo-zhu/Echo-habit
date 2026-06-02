@@ -489,8 +489,6 @@ body {
   margin-bottom: 14px;
 }
 .stat-card {
-  position: relative;
-  z-index: 1;
   background: var(--glass-secondary);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
@@ -499,7 +497,6 @@ body {
   padding: 14px 8px;
   text-align: center;
   transition: transform 210ms ease-out;
-  overflow: hidden;
 }
 .stat-card:active { transform: scale(0.97); transition: transform 80ms ease-out; }
 .stat-card .stat-num {
@@ -655,6 +652,100 @@ body {
 .history-item .hi-edit:active,
 .history-item .hi-delete:active { transform: scale(0.85); transition: transform 80ms ease-out; }
 
+/* ═══════════════ Record Group (weight/exercise list) ═══════════════ */
+.record-group {
+  padding: 14px 0;
+  border-bottom: 0.5px solid rgba(0,0,0,0.06);
+}
+.record-group:last-child { border-bottom: none; }
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.record-header .date-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.2px;
+}
+.record-header .weekday-tag {
+  font-size: 12px;
+  font-weight: 400;
+  margin-left: 6px;
+}
+
+.record-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 6px 0 6px 2px;
+  line-height: 1.5;
+}
+.record-detail.empty {
+  color: var(--text-tertiary);
+  font-size: 13px;
+}
+.record-detail .detail-main {
+  flex: 1;
+  min-width: 0;
+}
+.record-detail .detail-sub {
+  display: block;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+.record-detail + .record-detail {
+  border-top: 0.5px dashed rgba(0,0,0,0.06);
+  padding-top: 6px;
+}
+.record-detail .hi-edit {
+  color: var(--accent);
+  background: none; border: none;
+  font-size: 15px; cursor: pointer;
+  padding: 4px 8px; min-width: 36px; min-height: 36px;
+  touch-action: manipulation;
+  transition: transform 210ms ease-out;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.record-detail .hi-edit:active,
+.record-detail .hi-delete:active { transform: scale(0.85); transition: transform 80ms ease-out; }
+
+.detail-actions {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-shrink: 0;
+}
+.record-detail .hi-delete {
+  color: var(--danger);
+  background: none; border: none;
+  font-size: 18px; cursor: pointer;
+  padding: 4px 8px; min-width: 36px; min-height: 36px;
+  touch-action: manipulation;
+  transition: transform 210ms ease-out;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.record-header .hi-edit {
+  color: var(--accent);
+  background: none; border: none;
+  font-size: 15px; cursor: pointer;
+  padding: 4px 8px; min-width: 36px; min-height: 36px;
+  touch-action: manipulation;
+  transition: transform 210ms ease-out;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.record-header .hi-edit:active { transform: scale(0.85); transition: transform 80ms ease-out; }
+
 /* ═══════════════ Empty State ═══════════════ */
 .empty-state {
   text-align: center;
@@ -797,7 +888,7 @@ body {
     </div>
     <div class="input-group" style="margin-bottom:12px;">
       <label>日期</label>
-      <input type="date" id="weightDate" onchange="checkWeightDate()">
+      <input type="date" id="weightDate" max="" onchange="checkWeightDate()">
     </div>
     <div class="input-row">
       <div class="input-group"><label>晨重 (空腹)</label><input type="number" id="morningWeight" placeholder="kg" step="0.1" min="30" max="200"></div>
@@ -809,8 +900,7 @@ body {
   <div class="card">
     <div class="card-title">最近记录</div>
     <div class="filter-bar">
-      <button class="filter-btn active" data-filter="日" onclick="setWeightFilter('日',this)">日</button>
-      <button class="filter-btn" data-filter="周" onclick="setWeightFilter('周',this)">周</button>
+      <button class="filter-btn active" data-filter="周" onclick="setWeightFilter('周',this)">周</button>
       <button class="filter-btn" data-filter="月" onclick="setWeightFilter('月',this)">月</button>
       <button class="filter-btn" data-filter="年" onclick="setWeightFilter('年',this)">年</button>
       <button class="filter-btn" data-filter="总" onclick="setWeightFilter('总',this)">总</button>
@@ -892,7 +982,7 @@ body {
     </div>
     <div class="input-group" style="margin-bottom:12px;">
       <label>日期</label>
-      <input type="date" id="exerciseDate" onchange="checkExerciseDate()">
+      <input type="date" id="exerciseDate" max="" onchange="checkExerciseDate()">
     </div>
     <label style="font-size:12px;color:var(--text-secondary);font-weight:500;">类型</label>
     <div class="exercise-type-grid" id="exerciseTypes">
@@ -926,8 +1016,7 @@ body {
   <div class="card">
     <div class="card-title">最近记录</div>
     <div class="filter-bar">
-      <button class="filter-btn active" data-filter="日" onclick="setExerciseFilter('日',this)">日</button>
-      <button class="filter-btn" data-filter="周" onclick="setExerciseFilter('周',this)">周</button>
+      <button class="filter-btn active" data-filter="周" onclick="setExerciseFilter('周',this)">周</button>
       <button class="filter-btn" data-filter="月" onclick="setExerciseFilter('月',this)">月</button>
       <button class="filter-btn" data-filter="年" onclick="setExerciseFilter('年',this)">年</button>
       <button class="filter-btn" data-filter="总" onclick="setExerciseFilter('总',this)">总</button>
@@ -1043,6 +1132,8 @@ function loadData() {
   if (raw) {
     var d = JSON.parse(raw);
     if (!d.weights || d.weights.length === 0) { d.weights = SEED_WEIGHTS; localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+    if (!Array.isArray(d.periods)) d.periods = [];
+    if (!Array.isArray(d.exercises)) d.exercises = [];
     return d;
   }
   return { weights: SEED_WEIGHTS, periods: [], exercises: [] };
@@ -1109,6 +1200,13 @@ function today() { return new Date().toISOString().split('T')[0]; }
 function fmtDate(d) { return d.replace(/-/g, '/'); }
 function daysBetween(a, b) { return Math.round((new Date(b) - new Date(a)) / 86400000); }
 
+var WEEKDAYS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+function weekdayInfo(dateStr) {
+  var d = new Date(dateStr);
+  var idx = d.getDay(); // 0=周日 6=周六
+  return { label: WEEKDAYS[idx], isWeekend: idx === 0 || idx === 6 };
+}
+
 function showToast(msg) {
   var t = document.getElementById('toast');
   t.textContent = msg;
@@ -1155,6 +1253,16 @@ document.getElementById('headerDate').textContent =
 
 // ═══════════════ FILTER LOGIC ═══════════════
 
+function getMonthRange(offset) {
+  var now = new Date();
+  var m = new Date(now.getFullYear(), now.getMonth() + offset, 1);
+  return {
+    year: m.getFullYear(),
+    month: m.getMonth(),
+    label: m.getFullYear() + '年' + (m.getMonth() + 1) + '月'
+  };
+}
+
 function getWeekRange(offset) {
   var now = new Date();
   var day = now.getDay() || 7;
@@ -1171,76 +1279,79 @@ function getWeekRange(offset) {
   };
 }
 
-function getMonthRange(offset) {
-  var now = new Date();
-  var m = new Date(now.getFullYear(), now.getMonth() + offset, 1);
-  return {
-    year: m.getFullYear(),
-    month: m.getMonth(),
-    label: m.getFullYear() + '年' + (m.getMonth() + 1) + '月'
-  };
-}
-
 function getYearRange(offset) {
   var now = new Date();
   var y = now.getFullYear() + offset;
   return { year: y, label: y + '年' };
 }
 
-function applyFilter(items, filter, offset) {
-  if (filter === '总') return items;
-  var t = today();
+// 数据起始日期（统一边界）
+var DATA_EPOCH = '2026-05-15';
 
-  if (filter === '日') {
-    var ref = new Date();
-    ref.setDate(ref.getDate() + offset);
-    var target = ref.toISOString().split('T')[0];
-    return items.filter(function(item) { return item.date === target; });
+// 生成某段时间内所有日期
+function allDatesInRange(startDate, endDate) {
+  var dates = [];
+  var cur = new Date(startDate);
+  var end = new Date(endDate);
+  while (cur <= end) {
+    dates.push(cur.toISOString().split('T')[0]);
+    cur.setDate(cur.getDate() + 1);
   }
-  if (filter === '周') {
-    var wr = getWeekRange(offset);
-    return items.filter(function(item) {
-      var d = new Date(item.date);
-      return d >= wr.start && d <= wr.end;
-    });
-  }
-  if (filter === '月') {
-    var mr = getMonthRange(offset);
-    return items.filter(function(item) {
-      var d = new Date(item.date);
-      return d.getFullYear() === mr.year && d.getMonth() === mr.month;
-    });
-  }
-  if (filter === '年') {
-    var yr = getYearRange(offset);
-    return items.filter(function(item) {
-      return new Date(item.date).getFullYear() === yr.year;
-    });
-  }
-  return items;
+  return dates;
 }
 
 function getFilterLabel(filter, offset) {
-  if (filter === '日') {
-    var ref = new Date();
-    ref.setDate(ref.getDate() + offset);
-    return ref.getMonth() + 1 + '月' + ref.getDate() + '日';
-  }
   if (filter === '周') return getWeekRange(offset).label;
   if (filter === '月') return getMonthRange(offset).label;
   if (filter === '年') return getYearRange(offset).label;
   return '';
 }
 
+function getFilterDateRange(filter, offset) {
+  var today = new Date().toISOString().split('T')[0];
+  if (filter === '周') {
+    var wr = getWeekRange(offset);
+    var wkStart = wr.start.toISOString().split('T')[0];
+    var wkEnd = wr.end.toISOString().split('T')[0];
+    var start = wkStart < DATA_EPOCH ? DATA_EPOCH : wkStart;
+    var end = wkEnd > today ? today : wkEnd;
+    return { start: start, end: end };
+  }
+  if (filter === '月') {
+    var mr = getMonthRange(offset);
+    var monthStart = mr.year + '-' + String(mr.month + 1).padStart(2, '0') + '-01';
+    var lastDay = new Date(mr.year, mr.month + 1, 0).getDate();
+    var mEnd = mr.year + '-' + String(mr.month + 1).padStart(2, '0') + '-' + String(lastDay).padStart(2, '0');
+    var start2 = monthStart < DATA_EPOCH ? DATA_EPOCH : monthStart;
+    var end2 = mEnd > today ? today : mEnd;
+    return { start: start2, end: end2 };
+  }
+  if (filter === '年') {
+    var yr = getYearRange(offset);
+    var yStart = yr.year + '-01-01';
+    var yEnd = yr.year + '-12-31';
+    var start3 = yStart < DATA_EPOCH ? DATA_EPOCH : yStart;
+    var end3 = yEnd > today ? today : yEnd;
+    return { start: start3, end: end3 };
+  }
+  if (filter === '总') {
+    return { start: DATA_EPOCH, end: today };
+  }
+  // fallback: 最近30天
+  var d = new Date();
+  d.setDate(d.getDate() - 29);
+  return { start: d.toISOString().split('T')[0], end: today };
+}
+
 // ═══════════════ WEIGHT ═══════════════
-var weightFilter = '日';
+var weightFilter = '周';
 var weightFilterOffset = 0;
 var weightEditing = false;
 
 function renderWeightFilterNav() {
   var nav = document.getElementById('weightFilterNav');
   if (!nav) return;
-  if (weightFilter === '日' || weightFilter === '总') {
+  if (weightFilter === '总' || weightFilter === '周') {
     nav.style.display = 'none';
     return;
   }
@@ -1298,7 +1409,9 @@ function saveWeight() {
 function resetWeightForm() {
   document.getElementById('morningWeight').value = '';
   document.getElementById('eveningWeight').value = '';
-  document.getElementById('weightDate').value = today();
+  var wd = document.getElementById('weightDate');
+  wd.value = today();
+  wd.max = today();
   document.getElementById('weightBadge').textContent = '';
   document.querySelector('#tab-weight .btn-primary').textContent = '保存体重';
   weightEditing = false;
@@ -1337,33 +1450,66 @@ function checkWeightDate() {
 function renderWeightRecent() {
   var container = document.getElementById('weightRecent');
   if (!container) return;
-  var filtered = applyFilter(data.weights, weightFilter, weightFilterOffset);
-  if (!filtered.length) {
-    var label = getFilterLabel(weightFilter, weightFilterOffset) || (weightFilter === '总' ? '全部' : '');
-    container.innerHTML = '<div class="empty-state"><div class="empty-icon">⚖️</div><div class="empty-text">暂无' + label + '体重记录</div></div>';
+
+  // 根据筛选条件确定日期范围
+  var range = getFilterDateRange(weightFilter, weightFilterOffset);
+  var dates = allDatesInRange(range.start, range.end);
+  if (!dates.length) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">⚖️</div><div class="empty-text">该时段暂无数据</div></div>';
     return;
   }
-  container.innerHTML = filtered.map(function(w) {
+
+  // 建立日期→记录索引
+  var weightMap = {};
+  for (var j = 0; j < data.weights.length; j++) {
+    weightMap[data.weights[j].date] = data.weights[j];
+  }
+
+  // 倒序（最近在前）
+  dates.reverse();
+
+  container.innerHTML = dates.map(function(date) {
+    var w = weightMap[date];
+    var wi = weekdayInfo(date);
+    var wdColor = wi.isWeekend ? '#FF3B30' : 'var(--text-secondary)';
+    var dateLabel = '<span class="date-label">' + fmtDate(date) + '<span class="weekday-tag" style="color:' + wdColor + '">' + wi.label + '</span></span>';
+
+    if (!w) {
+      return '<div class="record-group">' +
+        '<div class="record-header">' +
+        dateLabel +
+        '<button class="hi-edit" onclick="startWeightForDate(\'' + date + '\')">✏️</button>' +
+        '</div>' +
+        '<div class="record-detail empty">暂无记录</div>' +
+        '</div>';
+    }
+
     var morning = w.morning ? w.morning + 'kg' : '--';
     var evening = w.evening ? w.evening + 'kg' : '--';
     var diff = (w.morning && w.evening) ? (w.evening - w.morning).toFixed(1) : null;
     var diffStr = diff ? (diff > 0 ? '+' + diff : diff) : '';
     var bmiStr = w.bmi ? 'BMI ' + w.bmi + ' (' + bmiLabel(w.bmi) + ')' : '';
-    return '<div class="history-item">' +
-      '<div class="hi-info"><div>' + fmtDate(w.date) + '</div>' +
-      '<div class="hi-date">晨 ' + morning + ' | 晚 ' + evening + (diffStr ? ' | 差 ' + diffStr + 'kg' : '') + ' | ' + bmiStr + '</div></div>' +
-      '<div class="hi-actions">' +
+    return '<div class="record-group">' +
+      '<div class="record-header">' +
+      dateLabel +
       '<button class="hi-edit" onclick="editWeight(\'' + w.date + '\')">✏️</button>' +
-      '<button class="hi-delete" onclick="deleteWeight(\'' + w.date + '\')">×</button>' +
-      '</div></div>';
+      '</div>' +
+      '<div class="record-detail"><div class="detail-main">' +
+      '晨 ' + morning + ' | 晚 ' + evening + (diffStr ? ' | 差 ' + diffStr + 'kg' : '') + ' | ' + bmiStr +
+      '</div></div>' +
+      '</div>';
   }).join('');
 }
 
-function deleteWeight(date) {
-  data.weights = data.weights.filter(function(w) { return w.date !== date; });
-  saveData(data);
-  renderWeightRecent();
-  showToast('已删除');
+function startWeightForDate(date) {
+  weightEditing = false;
+  document.getElementById('weightDate').value = date;
+  document.getElementById('morningWeight').value = '';
+  document.getElementById('eveningWeight').value = '';
+  document.getElementById('weightBadge').textContent = '补卡模式';
+  document.getElementById('weightBadge').style.color = 'var(--primary)';
+  document.querySelector('#tab-weight .btn-primary').textContent = '保存体重';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ═══════════════ PERIOD ═══════════════
@@ -1600,15 +1746,15 @@ function renderPeriodHistory() {
 }
 
 // ═══════════════ EXERCISE ═══════════════
-var exerciseState = { type: null, intensity: null };
-var exerciseFilter = '日';
+var exerciseFilter = '周';
 var exerciseFilterOffset = 0;
+var exerciseState = { type: null, intensity: null };
 var exerciseEditingIdx = -1;
 
 function renderExerciseFilterNav() {
   var nav = document.getElementById('exerciseFilterNav');
   if (!nav) return;
-  if (exerciseFilter === '日' || exerciseFilter === '总') {
+  if (exerciseFilter === '总' || exerciseFilter === '周') {
     nav.style.display = 'none';
     return;
   }
@@ -1675,7 +1821,9 @@ function resetExerciseForm() {
   document.getElementById('exerciseHours').value = '0';
   document.getElementById('exerciseMinutes').value = '30';
   document.getElementById('exerciseNote').value = '';
-  document.getElementById('exerciseDate').value = today();
+  var ed = document.getElementById('exerciseDate');
+  ed.value = today();
+  ed.max = today();
   var items = document.querySelectorAll('.exercise-type-item');
   for (var i = 0; i < items.length; i++) items[i].classList.remove('selected');
   var btns = document.querySelectorAll('.intensity-btn');
@@ -1728,36 +1876,91 @@ function checkExerciseDate() {
 function renderExerciseHistory() {
   var container = document.getElementById('exerciseHistory');
   if (!container) return;
-  var filtered = applyFilter(data.exercises, exerciseFilter, exerciseFilterOffset);
-  if (!filtered.length) {
-    var label = getFilterLabel(exerciseFilter, exerciseFilterOffset) || (exerciseFilter === '总' ? '全部' : '');
-    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏃</div><div class="empty-text">暂无' + label + '运动记录</div></div>';
+
+  // 根据筛选条件确定日期范围
+  var range = getFilterDateRange(exerciseFilter, exerciseFilterOffset);
+  var dates = allDatesInRange(range.start, range.end);
+  if (!dates.length) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏃</div><div class="empty-text">该时段暂无数据</div></div>';
     return;
   }
+
+  // 建立日期→记录索引（一个日期可能有多条运动）
+  var exerciseMap = {};
+  for (var j = 0; j < data.exercises.length; j++) {
+    var e = data.exercises[j];
+    if (!exerciseMap[e.date]) exerciseMap[e.date] = [];
+    exerciseMap[e.date].push({ record: e, idx: j });
+  }
+
+  // 倒序（最近在前）
+  dates.reverse();
+
   var intensities = { low: '低', medium: '中', high: '高' };
-  container.innerHTML = filtered.map(function(e) {
-    var globalIdx = -1;
-    for (var i = 0; i < data.exercises.length; i++) {
-      if (data.exercises[i] === e) { globalIdx = i; break; }
+  container.innerHTML = dates.map(function(date) {
+    var entries = exerciseMap[date];
+    var wi = weekdayInfo(date);
+    var wdColor = wi.isWeekend ? '#FF3B30' : 'var(--text-secondary)';
+    var dateLabel = '<span class="date-label">' + fmtDate(date) + '<span class="weekday-tag" style="color:' + wdColor + '">' + wi.label + '</span></span>';
+
+    // 无记录
+    if (!entries || !entries.length) {
+      return '<div class="record-group">' +
+        '<div class="record-header">' +
+        dateLabel +
+        '<button class="hi-edit" onclick="startExerciseForDate(\'' + date + '\')">✏️</button>' +
+        '</div>' +
+        '<div class="record-detail empty">暂无记录</div>' +
+        '</div>';
     }
-    var h = Math.floor(e.duration / 60);
-    var m = e.duration % 60;
-    var durStr = h > 0 ? (m > 0 ? h + '小时' + m + '分' : h + '小时') : m + '分';
-    return '<div class="history-item">' +
-      '<div class="hi-info"><div>' + fmtDate(e.date) + '  ' + e.type + ' · ' + durStr + '</div>' +
-      '<div class="hi-date">' + intensities[e.intensity] + '强度' + (e.note ? ' · ' + e.note : '') + '</div></div>' +
-      '<div class="hi-actions">' +
-      '<button class="hi-edit" onclick="editExercise(' + globalIdx + ')">✏️</button>' +
-      '<button class="hi-delete" onclick="deleteExercise(' + globalIdx + ')">×</button>' +
-      '</div></div>';
+
+    // 多条记录合并到同一日期下
+    var detailRows = entries.map(function(entry) {
+      var e = entry.record;
+      var h = Math.floor(e.duration / 60);
+      var m = e.duration % 60;
+      var durStr = h > 0 ? (m > 0 ? h + '小时' + m + '分' : h + '小时') : m + '分';
+      return '<div class="record-detail">' +
+        '<div class="detail-main">' + e.type + ' · ' + durStr +
+        '<span class="detail-sub">' + intensities[e.intensity] + '强度' + (e.note ? ' · ' + e.note : '') + '</span></div>' +
+        '<div class="detail-actions">' +
+        '<button class="hi-edit" onclick="editExercise(' + entry.idx + ')">✏️</button>' +
+        '<button class="hi-delete" onclick="deleteExercise(' + entry.idx + ')">×</button>' +
+        '</div></div>';
+    }).join('');
+
+    return '<div class="record-group">' +
+      '<div class="record-header">' +
+      dateLabel +
+      '</div>' +
+      detailRows +
+      '</div>';
   }).join('');
 }
 
 function deleteExercise(idx) {
+  if (idx < 0 || idx >= data.exercises.length) return;
   data.exercises.splice(idx, 1);
   saveData(data);
   renderExerciseHistory();
-  showToast('已删除');
+  showToast('运动记录已删除');
+}
+
+function startExerciseForDate(date) {
+  exerciseEditingIdx = -1;
+  document.getElementById('exerciseDate').value = date;
+  exerciseState = { type: null, intensity: null };
+  var items = document.querySelectorAll('.exercise-type-item');
+  for (var i = 0; i < items.length; i++) items[i].classList.remove('selected');
+  var btns = document.querySelectorAll('.intensity-btn');
+  for (var j = 0; j < btns.length; j++) btns[j].className = 'intensity-btn';
+  document.getElementById('exerciseHours').value = '0';
+  document.getElementById('exerciseMinutes').value = '30';
+  document.getElementById('exerciseNote').value = '';
+  document.getElementById('exerciseBadge').textContent = '补卡模式';
+  document.getElementById('exerciseBadge').style.color = 'var(--primary)';
+  document.querySelector('#tab-exercise .btn-primary').textContent = '保存运动';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ═══════════════ DASHBOARD ═══════════════
@@ -1939,7 +2142,7 @@ function renderWeightChart() {
         legend: { position: 'bottom', labels: { boxWidth: 10, padding: 16, font: { size: 12, family: "-apple-system" }, usePointStyle: true } }
       },
       scales: {
-        y: { ticks: { callback: function(v){ return v + 'kg'; }, font: { size: 11 } }, grid: { color: '#F2F2F7' } },
+        y: { ticks: { callback: function(v){ return v.toFixed(1) + 'kg'; }, font: { size: 11 } }, grid: { color: '#F2F2F7' } },
         x: { grid: { display: false }, ticks: { font: { size: 10 } } }
       }
     }
@@ -2095,8 +2298,8 @@ function init() {
   var ts = today();
   var wde = document.getElementById('weightDate');
   var ede = document.getElementById('exerciseDate');
-  if (wde) wde.value = ts;
-  if (ede) ede.value = ts;
+  if (wde) { wde.value = ts; wde.max = ts; }
+  if (ede) { ede.value = ts; ede.max = ts; }
   renderWeightFilterNav();
   renderExerciseFilterNav();
   renderWeightRecent();
