@@ -217,8 +217,44 @@ body {
 }
 .tab-nav .tab-icon {
   display: block;
-  font-size: 24px;
   margin-bottom: 3px;
+}
+.tab-nav .tab-icon svg,
+.tab-nav .tab-icon .icon-svg {
+  display: block;
+  margin: 0 auto;
+  width: 22px;
+  height: 22px;
+  color: var(--text-secondary);
+  transition: color 210ms ease-out;
+}
+.tab-nav button.active .tab-icon svg,
+.tab-nav button.active .tab-icon .icon-svg {
+  color: var(--accent);
+}
+
+/* ═══════════════ Unified Icon System ═══════════════ */
+.icon-svg {
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  color: inherit;
+}
+.icon-svg-lg {
+  width: 28px;
+  height: 28px;
+}
+.icon-svg-md {
+  width: 24px;
+  height: 24px;
+}
+.empty-state .icon-svg {
+  width: 48px;
+  height: 48px;
+  color: var(--text-tertiary);
+  opacity: 0.6;
+  margin-bottom: 10px;
 }
 
 /* Content */
@@ -449,7 +485,17 @@ body {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
-.exercise-type-item .emoji { font-size: 26px; display: block; margin-bottom: 6px; }
+.exercise-type-item .icon-svg {
+  display: block;
+  margin: 0 auto 6px;
+  width: 26px;
+  height: 26px;
+  color: var(--text);
+  transition: color 210ms ease-out;
+}
+.exercise-type-item.selected .icon-svg {
+  color: var(--accent);
+}
 .exercise-type-item.selected {
   background: var(--glass-selected);
   border-color: var(--edge-accent);
@@ -482,34 +528,119 @@ body {
 .intensity-btn:active { transform: scale(0.95); transition: transform 80ms ease-out; }
 
 /* ═══════════════ Dashboard Stats ═══════════════ */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 14px;
+
+/* ═══ 总运动摘要 ═══ */
+.exercise-summary {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.6;
+  padding: 4px 0;
 }
-.stat-card {
-  background: var(--glass-secondary);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border-radius: var(--r-lg);
-  border: 0.5px solid var(--edge-secondary);
-  padding: 14px 8px;
-  text-align: center;
-  transition: transform 210ms ease-out;
-}
-.stat-card:active { transform: scale(0.97); transition: transform 80ms ease-out; }
-.stat-card .stat-num {
-  font-size: 28px;
+.ex-hl {
+  font-size: 20px;
   font-weight: 700;
-  letter-spacing: -0.5px;
-  text-shadow: 0 0.5px 0 rgba(255,255,255,0.6);
+  color: var(--success);
+  margin: 0 2px;
+  vertical-align: -1px;
 }
-.stat-card .stat-label {
-  font-size: 10px;
+
+/* ═══ 运动日历 ═══ */
+.ex-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+  font-size: 12px;
+  margin-top: 8px;
+}
+.ex-calendar .ex-day-header {
   color: var(--text-secondary);
-  margin-top: 4px;
   font-weight: 600;
+  font-size: 10px;
+  padding: 4px 0;
+}
+.ex-calendar .ex-cell {
+  position: relative;
+  padding: 8px 0;
+  border-radius: 8px;
+  cursor: default;
+  font-size: 11px;
+  color: var(--text);
+  font-weight: 500;
+  transition: background 210ms ease-out;
+}
+.ex-calendar .ex-cell.dim {
+  color: var(--text-tertiary);
+}
+.ex-calendar .ex-cell.today {
+  font-weight: 700;
+  background: var(--accent);
+  color: #fff;
+}
+.ex-calendar .ex-cell.today::after {
+  content: '';
+  display: none;
+}
+.ex-calendar .ex-cell.has-exercise {
+  font-weight: 600;
+}
+.ex-calendar .ex-cell.has-exercise::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.7);
+}
+.ex-calendar .ex-cell.today.has-exercise::before {
+  top: 2px;
+  right: 4px;
+}
+
+/* ═══ 今日vs昨日对比 ═══ */
+.compare-hint {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+.compare-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.compare-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  min-width: 28px;
+}
+.compare-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+}
+.compare-val-today {
+  font-size: 22px;
+  color: var(--accent);
+}
+.compare-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.compare-bar {
+  height: 100%;
+  background: var(--success);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
   letter-spacing: 0.3px;
 }
 .edit-initial {
@@ -613,25 +744,32 @@ body {
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  width: 104px;
 }
 .wo-current-label {
   font-size: 9px;
   color: var(--text-tertiary);
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 .wo-current-val {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
   color: var(--text);
   line-height: 1.1;
 }
+.wo-ring-divider {
+  width: 24px;
+  height: 1px;
+  background: var(--edge-subtle);
+  margin: 5px auto;
+}
 .wo-remain-label {
-  font-size: 10px;
-  color: var(--text-secondary);
-  margin-top: 6px;
+  font-size: 9px;
+  color: var(--text-tertiary);
+  line-height: 1.2;
 }
 .wo-remain-val {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--danger);
   line-height: 1.2;
@@ -659,32 +797,6 @@ body {
   margin: 4px 0;
 }
 .chart-container canvas { width: 100% !important; }
-
-/* ═══════════════ Heatmap ═══════════════ */
-.heatmap {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  padding: 4px 0;
-}
-.heatmap-day {
-  width: 13px; height: 13px;
-  border-radius: 4px;
-  background: rgba(0,0,0,0.06);
-  cursor: pointer;
-  transition: transform 210ms ease-out;
-}
-.heatmap-day:active { transform: scale(1.3); transition: transform 80ms ease-out; }
-.heatmap-day.level-1 { background: rgba(0,122,255,0.25); }
-.heatmap-day.level-2 { background: rgba(0,122,255,0.55); }
-.heatmap-day.level-3 { background: rgba(0,122,255,0.75); }
-.heatmap-day.level-4 { background: var(--accent); }
-.heatmap-labels {
-  display: flex; justify-content: space-between;
-  font-size: 11px; color: var(--text-secondary);
-  margin-top: 10px; font-weight: 500;
-}
 
 /* ═══════════════ Filter Bar — Glass pills ═══════════════ */
 .filter-bar {
@@ -921,15 +1033,16 @@ body {
 .mini-calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 5px; text-align: center;
+  gap: 4px; text-align: center;
   font-size: 12px; margin-top: 12px;
 }
 .mini-calendar .day-header {
   color: var(--text-secondary);
   font-weight: 600; padding: 4px 0;
+  font-size: 10px;
 }
 .mini-calendar .day-cell {
-  padding: 8px 0; border-radius: var(--r-xs);
+  padding: 8px 0; border-radius: 8px;
   cursor: pointer; transition: background 210ms ease-out;
   font-weight: 500;
 }
@@ -989,7 +1102,6 @@ body {
 @media (max-width: 374px) {
   .weight-dual { grid-template-columns: 1fr; }
   .exercise-type-grid { grid-template-columns: repeat(3, 1fr); }
-  .dashboard-grid { grid-template-columns: 1fr 1fr; }
   .tab-nav button { font-size: 11px; padding: 10px 2px; }
   .tab-nav .tab-icon { font-size: 22px; }
 }
@@ -1016,10 +1128,10 @@ body {
   </div>
 </div>
 <div class="tab-nav">
-  <button class="active" data-tab="dashboard"><span class="tab-icon">📊</span>看板</button>
-  <button data-tab="weight"><span class="tab-icon">⚖️</span>体重</button>
-  <button data-tab="exercise"><span class="tab-icon">🏃</span>运动</button>
-  <button data-tab="period"><span class="tab-icon">📅</span>月经</button>
+  <button class="active" data-tab="dashboard"><span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></span>数据</button>
+  <button data-tab="weight"><span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M12 7a5 5 0 0 1 0 10"/></svg></span>体重</button>
+  <button data-tab="exercise"><span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4" r="2"/><path d="M7 21l3-4 2-5-3-2 2-3h4l2 3-2 5 3 4"/></svg></span>运动</button>
+  <button data-tab="period"><span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>月经</button>
 </div>
 </div>
 
@@ -1140,15 +1252,14 @@ body {
     </div>
     <label style="font-size:12px;color:var(--text-secondary);font-weight:500;">类型</label>
     <div class="exercise-type-grid" id="exerciseTypes">
-      <div class="exercise-type-item" data-type="跑步" onclick="selectExerciseType(this)"><span class="emoji">🏃</span>跑步</div>
-      <div class="exercise-type-item" data-type="快走" onclick="selectExerciseType(this)"><span class="emoji">🚶</span>快走</div>
-      <div class="exercise-type-item" data-type="跳绳" onclick="selectExerciseType(this)">
-        <span class="emoji jump-rope-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="14" cy="5" r="3" fill="#FF6B35"/><path d="M10 8 Q14 14 14 14 Q14 14 18 8" stroke="#FF6B35" stroke-width="1.2" fill="none"/><circle cx="14" cy="14" r="1.2" fill="#FF6B35"/><line x1="14" y1="15" x2="14" y2="22" stroke="#FF6B35" stroke-width="1.5" stroke-linecap="round"/><line x1="14" y1="22" x2="14" y2="26" stroke="#888" stroke-width="1.5" stroke-linecap="round"/><line x1="14" y1="22" x2="12" y2="25" stroke="#888" stroke-width="1.5" stroke-linecap="round"/><line x1="14" y1="22" x2="16" y2="25" stroke="#888" stroke-width="1.5" stroke-linecap="round"/><path d="M5 8 Q9 14 9 18 Q9 23 5 26" stroke="#FF6B35" stroke-width="1.2" fill="none"/><path d="M23 8 Q19 14 19 18 Q19 23 23 26" stroke="#FF6B35" stroke-width="1.2" fill="none"/><line x1="5" y1="3" x2="5" y2="8" stroke="#FF6B35" stroke-width="1.2" stroke-linecap="round"/><line x1="23" y1="3" x2="23" y2="8" stroke="#FF6B35" stroke-width="1.2" stroke-linecap="round"/><line x1="3" y1="3" x2="5" y2="3" stroke="#FF6B35" stroke-width="1.2" stroke-linecap="round"/><line x1="23" y1="3" x2="25" y2="3" stroke="#FF6B35" stroke-width="1.2" stroke-linecap="round"/></svg></span>跳绳</div>
-      <div class="exercise-type-item" data-type="瑜伽" onclick="selectExerciseType(this)"><span class="emoji">🧘</span>瑜伽</div>
-      <div class="exercise-type-item" data-type="力量" onclick="selectExerciseType(this)"><span class="emoji">🏋️</span>力量</div>
-      <div class="exercise-type-item" data-type="游泳" onclick="selectExerciseType(this)"><span class="emoji">🏊</span>游泳</div>
-      <div class="exercise-type-item" data-type="骑行" onclick="selectExerciseType(this)"><span class="emoji">🚴</span>骑行</div>
-      <div class="exercise-type-item" data-type="其他" onclick="selectExerciseType(this)"><span class="emoji">🎯</span>其他</div>
+      <div class="exercise-type-item" data-type="跑步" onclick="selectExerciseType(this)"><span class="icon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="15" cy="5" r="3"/><path d="M9 21l3-4 1-4-3-2 4-3 3 3 1 4"/></svg></span>跑步</div>
+      <div class="exercise-type-item" data-type="快走" onclick="selectExerciseType(this)"><span class="icon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4" r="2"/><path d="M10 21l2-6 3-2-1-3-4 2-2 5"/></svg></span>快走</div>
+      <div class="exercise-type-item" data-type="跳绳" onclick="selectExerciseType(this)"><span class="icon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8c0-3 3-5 8-5s8 2 8 5-3 5-8 5-8-2-8-5z"/><path d="M12 13v8"/><path d="M8 21h8"/><path d="M4 8v4M20 8v4"/></svg></span>跳绳</div>
+      <div class="exercise-type-item" data-type="瑜伽" onclick="selectExerciseType(this)"><span class="icon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3c0 1.5 1 2 2 3l-3 8h8l-3-8c1-1 2-1.5 2-3a3 3 0 0 0-3-3z"/><path d="M7 21h10"/></svg></span>瑜伽</div>
+      <div class="exercise-type-item" data-type="力量" onclick="selectExerciseType(this)"><span class="icon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5v14M18 5v14M3 8h3M18 8h3M3 16h3M18 16h3"/></svg></span>力量</div>
+      <div class="exercise-type-item" data-type="游泳" onclick="selectExerciseType(this)"><span class="icon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20M2 16h20M2 8h20M6 4a4 4 0 0 1 4 4M14 4a4 4 0 0 0-4 4"/></svg></span>游泳</div>
+      <div class="exercise-type-item" data-type="骑行" onclick="selectExerciseType(this)"><span class="icon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h-3l-3 7h6m0 0l-2-7h-4l-3 7H7"/></svg></span>骑行</div>
+      <div class="exercise-type-item" data-type="其他" onclick="selectExerciseType(this)"><span class="icon-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>其他</div>
     </div>
     <label style="font-size:12px;color:var(--text-secondary);font-weight:500;">强度</label>
     <div class="intensity-row">
@@ -1198,7 +1309,7 @@ body {
     <div class="wo-body">
       <div class="wo-side" style="cursor:pointer;" onclick="editInitialWeight()" title="点击修改初始体重">
         <div class="wo-side-val" id="woInitial">--</div>
-        <div class="wo-side-label">初始体重 ✎</div>
+        <div class="wo-side-label">初始体重(kg) <svg class="icon-svg" style="width:10px;height:10px;vertical-align:middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
         <div class="wo-side-date" id="woInitialDate"></div>
       </div>
       <div class="wo-center">
@@ -1208,42 +1319,24 @@ body {
             <circle class="ring-progress" id="woRingProgress" cx="60" cy="60" r="52" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 327" transform="rotate(-90 60 60)"/>
           </svg>
           <div class="wo-ring-inner">
-            <div class="wo-current-label">当前（公斤）</div>
+            <div class="wo-current-label">当前(kg)</div>
             <div class="wo-current-val" id="woCurrent">--</div>
+            <div class="wo-ring-divider"></div>
+            <div class="wo-remain-label">还需减重(kg)</div>
+            <div class="wo-remain-val" id="woRemain">--</div>
           </div>
         </div>
-        <div class="wo-remain-label">还需减重（公斤）</div>
-        <div class="wo-remain-val" id="woRemain">--</div>
       </div>
       <div class="wo-side" style="cursor:pointer;" onclick="editTargetWeight()" title="点击修改目标体重">
         <div class="wo-side-val" id="woTarget">--</div>
-        <div class="wo-side-label">目标体重 ✎</div>
+        <div class="wo-side-label">目标体重(kg) <svg class="icon-svg" style="width:10px;height:10px;vertical-align:middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
         <div class="wo-side-date" id="woTargetDate"></div>
       </div>
     </div>
     <div class="wo-latest" id="woLatest"></div>
   </div>
 
-  <!-- ═══ 统计卡片 2x2 ═══ -->
-  <div class="dashboard-grid" style="grid-template-columns:1fr 1fr;">
-    <div class="stat-card">
-      <div class="stat-num" id="statExercise" style="color:var(--warning);">0</div>
-      <div class="stat-label">本月运动次数</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="statExerciseDur" style="color:var(--primary);">0</div>
-      <div class="stat-label">本月运动时长</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="statTotalDays" style="color:var(--primary);">0</div>
-      <div class="stat-label">累计打卡天数</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="statStreak" style="color:var(--success);">0</div>
-      <div class="stat-label">连续打卡</div>
-    </div>
-  </div>
-
+  <!-- ═══ 体重趋势 ═══ -->
   <div class="card">
     <div class="card-title" style="justify-content:space-between;">
       <span>体重趋势</span>
@@ -1255,27 +1348,55 @@ body {
     <div class="chart-container"><canvas id="weightChart"></canvas></div>
   </div>
 
+  <!-- ═══ 总运动摘要 ═══ -->
   <div class="card">
     <div class="card-title" style="justify-content:space-between;">
-      <span>运动分布</span>
-      <div style="display:flex;gap:2px;">
-        <button class="nav-arrow" onclick="shiftDashboardMonth(-1)" style="width:30px;height:30px;font-size:16px;">‹</button>
-        <span id="dashboardMonthLabel" style="font-size:13px;font-weight:600;line-height:30px;min-width:60px;text-align:center;"></span>
-        <button class="nav-arrow" onclick="shiftDashboardMonth(1)" style="width:30px;height:30px;font-size:16px;">›</button>
+      <span style="display:flex;align-items:center;gap:6px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" fill="#34C759"/><rect x="14" y="3" width="7" height="7" rx="1.5" fill="#34C759"/><rect x="3" y="14" width="7" height="7" rx="1.5" fill="#34C759" opacity="0.5"/><rect x="14" y="14" width="7" height="7" rx="1.5" fill="#34C759" opacity="0.5"/></svg>
+        总运动
+      </span>
+      <span style="font-size:16px;color:var(--accent);cursor:pointer;" onclick="switchToExerciseTab()" title="前往运动记录">›</span>
+    </div>
+    <div class="exercise-summary" id="exerciseSummary">本月累计运动 -- 天，最近连续运动 -- 天</div>
+  </div>
+
+  <!-- ═══ 运动日历 ═══ -->
+  <div class="card">
+    <div class="card-title" style="justify-content:space-between;">
+      <span style="display:flex;align-items:center;gap:6px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="18" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="2" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        运动日历
+      </span>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="nav-arrow" onclick="shiftExerciseCalendar(-1)" style="width:28px;height:28px;font-size:14px;">‹</button>
+        <span id="exerciseCalLabel" style="font-size:13px;font-weight:600;min-width:70px;text-align:center;"></span>
+        <button class="nav-arrow" onclick="shiftExerciseCalendar(1)" style="width:28px;height:28px;font-size:14px;">›</button>
       </div>
     </div>
-    <div class="chart-container"><canvas id="exerciseChart"></canvas></div>
+    <div class="ex-calendar" id="exCalendar"></div>
+  </div>
+
+  <!-- ═══ 今日 vs 昨日 ═══ -->
+  <div class="card">
+    <div class="card-title" style="display:flex;align-items:center;gap:6px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round"/><path d="M7 17l4-7 3 4 4-6" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      运动时长
+    </div>
+    <div class="compare-hint" id="compareHint">--</div>
+    <div class="compare-row">
+      <span class="compare-label">今日</span>
+      <span class="compare-val compare-val-today" id="compareToday">0 分钟</span>
+    </div>
+    <div class="compare-row" style="margin-top:8px;">
+      <span class="compare-label">昨天</span>
+      <div class="compare-bar-wrap">
+        <div class="compare-bar" id="compareBar" style="width:0%"></div>
+      </div>
+      <span class="compare-val" id="compareYesterday">0 分钟</span>
+    </div>
   </div>
 
   <div class="card">
-    <div class="card-title">打卡热力图（近90天）</div>
-    <div class="heatmap" id="heatmap"></div>
-    <div class="heatmap-labels"><span>90天前</span><span>今天</span></div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">数据导出</div>
-    <div style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">导出全部历史数据为 Excel 表格</div>
     <button class="btn btn-outline full-width" onclick="exportToExcel()">导出 Excel (.xlsx)</button>
   </div>
 </div>
@@ -1337,6 +1458,8 @@ function loadUsername() {
 function saveUsernameToStorage(name) {
   localStorage.setItem('habit_tracker_username', name);
 }
+var USER_ICON_SVG = '<svg class="icon-svg" style="width:14px;height:14px;vertical-align:-2px;margin-right:2px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+
 function displayUsername() {
   var name = loadUsername();
   var el = document.getElementById('usernameDisplay');
@@ -1344,7 +1467,7 @@ function displayUsername() {
     el.textContent = name;
     el.style.display = '';
   } else {
-    el.textContent = '👤';
+    el.innerHTML = USER_ICON_SVG;
     el.style.display = '';
   }
 }
@@ -1357,7 +1480,7 @@ function promptSetUsername() {
 function dismissNameModal() {
   document.getElementById('nameModal').classList.remove('show');
   if (!loadUsername()) {
-    document.getElementById('usernameDisplay').textContent = '👤';
+    document.getElementById('usernameDisplay').innerHTML = USER_ICON_SVG;
   }
 }
 function saveUsername() {
@@ -1642,7 +1765,7 @@ function renderWeightRecent() {
   var range = getFilterDateRange(weightFilter, weightFilterOffset);
   var dates = allDatesInRange(range.start, range.end);
   if (!dates.length) {
-    container.innerHTML = '<div class="empty-state"><div class="empty-icon">⚖️</div><div class="empty-text">该时段暂无数据</div></div>';
+    container.innerHTML = '<div class="empty-state"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M12 7a5 5 0 0 1 0 10"/></svg><div class="empty-text">该时段暂无数据</div></div>';
     return;
   }
 
@@ -1665,7 +1788,7 @@ function renderWeightRecent() {
       return '<div class="record-group">' +
         '<div class="record-header">' +
         dateLabel +
-        '<button class="hi-edit" onclick="startWeightForDate(\'' + date + '\')">✏️</button>' +
+        '<button class="hi-edit" onclick="startWeightForDate(\'' + date + '\')"><svg class=\"icon-svg\" style=\"width:16px;height:16px;\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7\"/><path d=\"M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z\"/></svg></button>' +
         '</div>' +
         '<div class="record-detail empty">暂无记录</div>' +
         '</div>';
@@ -1679,7 +1802,7 @@ function renderWeightRecent() {
     return '<div class="record-group">' +
       '<div class="record-header">' +
       dateLabel +
-      '<button class="hi-edit" onclick="editWeight(\'' + w.date + '\')">✏️</button>' +
+      '<button class="hi-edit" onclick="editWeight(\'' + w.date + '\')"><svg class=\"icon-svg\" style=\"width:16px;height:16px;\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7\"/><path d=\"M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z\"/></svg></button>' +
       '</div>' +
       '<div class="record-detail"><div class="detail-main">' +
       '晨 ' + morning + ' | 晚 ' + evening + (diffStr ? ' | 差 ' + diffStr + 'kg' : '') + ' | ' + bmiStr +
@@ -1984,7 +2107,7 @@ function renderMiniCalendar() {
 function renderPeriodHistory() {
   var container = document.getElementById('periodHistory');
   if (!data.periods.length) {
-    container.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">暂无经期记录</div></div>';
+    container.innerHTML = '<div class="empty-state"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg><div class="empty-text">暂无经期记录</div></div>';
     return;
   }
   var flowLabels = { light: '少量', 'medium-flow': '正常', heavy: '较多' };
@@ -2134,7 +2257,7 @@ function renderExerciseHistory() {
   var range = getFilterDateRange(exerciseFilter, exerciseFilterOffset);
   var dates = allDatesInRange(range.start, range.end);
   if (!dates.length) {
-    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏃</div><div class="empty-text">该时段暂无数据</div></div>';
+    container.innerHTML = '<div class="empty-state"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4" r="2"/><path d="M7 21l3-4 2-5-3-2 2-3h4l2 3-2 5 3 4"/></svg><div class="empty-text">该时段暂无数据</div></div>';
     return;
   }
 
@@ -2161,7 +2284,7 @@ function renderExerciseHistory() {
       return '<div class="record-group">' +
         '<div class="record-header">' +
         dateLabel +
-        '<button class="hi-edit" onclick="startExerciseForDate(\'' + date + '\')">✏️</button>' +
+        '<button class="hi-edit" onclick="startExerciseForDate(\'' + date + '\')"><svg class=\"icon-svg\" style=\"width:16px;height:16px;\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7\"/><path d=\"M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z\"/></svg></button>' +
         '</div>' +
         '<div class="record-detail empty">暂无记录</div>' +
         '</div>';
@@ -2177,7 +2300,7 @@ function renderExerciseHistory() {
         '<div class="detail-main">' + e.type + ' · ' + durStr +
         '<span class="detail-sub">' + intensities[e.intensity] + '强度' + (e.note ? ' · ' + e.note : '') + '</span></div>' +
         '<div class="detail-actions">' +
-        '<button class="hi-edit" onclick="editExercise(' + entry.idx + ')">✏️</button>' +
+        '<button class="hi-edit" onclick="editExercise(' + entry.idx + ')"><svg class=\"icon-svg\" style=\"width:16px;height:16px;\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7\"/><path d=\"M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z\"/></svg></button>' +
         '<button class="hi-delete" onclick="deleteExercise(' + entry.idx + ')">×</button>' +
         '</div></div>';
     }).join('');
@@ -2218,9 +2341,8 @@ function startExerciseForDate(date) {
 
 // ═══════════════ DASHBOARD ═══════════════
 var weightChartInst = null;
-var exerciseChartInst = null;
-var dashboardMonthOffset = 0;
 var weightTrendMode = '30';
+var exCalendarOffset = 0;
 
 function getCheckinDays() {
   var days = {};
@@ -2266,22 +2388,22 @@ function renderDashboard() {
     return;
   }
 
-  var checkinDays = getCheckinDays();
-  document.getElementById('statTotalDays').textContent = checkinDays.length;
-  document.getElementById('statStreak').textContent = calcStreak();
-
-  var mr = getMonthRange(dashboardMonthOffset);
-  var monthStart = new Date(mr.year, mr.month, 1);
-  var monthEnd = new Date(mr.year, mr.month + 1, 1);
-  var monthExercises = data.exercises.filter(function(e) {
-    var d = new Date(e.date);
-    return d >= monthStart && d < monthEnd;
-  });
-  document.getElementById('statExercise').textContent = monthExercises.length;
-  document.getElementById('dashboardMonthLabel').textContent = mr.label;
-
   var now = new Date();
   var tn = today();
+
+  // ═══ 总运动摘要 ═══
+  var thisMonth = getMonthRange(0);
+  var ms = new Date(thisMonth.year, thisMonth.month, 1);
+  var me = new Date(thisMonth.year, thisMonth.month + 1, 1);
+  var monthExDays = {};
+  for (var i = 0; i < data.exercises.length; i++) {
+    var ed = new Date(data.exercises[i].date);
+    if (ed >= ms && ed < me) monthExDays[data.exercises[i].date] = true;
+  }
+  var monthExCount = 0;
+  for (var k in monthExDays) { if (monthExDays.hasOwnProperty(k)) monthExCount++; }
+  var streak = calcStreak();
+  document.getElementById('exerciseSummary').innerHTML = '本月累计运动 <b class="ex-hl">' + monthExCount + '</b> 天，最近连续运动 <b class="ex-hl">' + streak + '</b> 天';
 
   // ═══ 体重概览卡片 ═══
   var latestMorning = null;
@@ -2291,32 +2413,25 @@ function renderDashboard() {
   var latestMorningVal = latestMorning ? latestMorning.morning : null;
   var firstWeightDate = data.weights.length > 0 ? data.weights[data.weights.length - 1].date : null;
 
-  // 减重天数
   var dietDays = 0;
   if (firstWeightDate) {
     dietDays = Math.floor((new Date() - new Date(firstWeightDate)) / 86400000) + 1;
   }
   document.getElementById('woSubtitle').textContent = '减重第 ' + (dietDays || '--') + ' 天';
-
-  // 初始体重
   document.getElementById('woInitial').textContent = data.initialWeight ? data.initialWeight.toFixed(1) : '--';
   document.getElementById('woInitialDate').textContent = firstWeightDate || '--';
-
-  // 目标体重
   document.getElementById('woTarget').textContent = data.targetWeight ? data.targetWeight.toFixed(1) : '--';
-  document.getElementById('woTargetDate').textContent = '--'; // can be customized later
+  document.getElementById('woTargetDate').textContent = '--';
 
-  // 当前体重 + 圆环进度
-  var totalToLose = data.initialWeight - data.targetWeight; // total weight to lose
+  var totalToLose = data.initialWeight - data.targetWeight;
   if (latestMorningVal && totalToLose > 0) {
     document.getElementById('woCurrent').textContent = latestMorningVal.toFixed(1);
-    var lost = data.initialWeight - latestMorningVal; // already lost
-    var remain = latestMorningVal - data.targetWeight; // still need to lose
+    var lost = data.initialWeight - latestMorningVal;
+    var remain = latestMorningVal - data.targetWeight;
     remain = Math.max(0, remain);
     document.getElementById('woRemain').textContent = remain.toFixed(1);
-    // Ring progress: lost / totalToLose
     var pct = Math.min(1, Math.max(0, lost / totalToLose));
-    var circumference = 2 * Math.PI * 52; // ~326.7
+    var circumference = 2 * Math.PI * 52;
     var dash = pct * circumference;
     var ring = document.getElementById('woRingProgress');
     ring.setAttribute('stroke-dasharray', dash + ' ' + circumference);
@@ -2328,31 +2443,18 @@ function renderDashboard() {
     ring2.setAttribute('stroke-dasharray', '0 327');
   }
 
-  // 最新体重记录条目
   var latestEl = document.getElementById('woLatest');
   if (latestMorning) {
     var d = new Date(latestMorning.date);
     var timeLabel = d.getMonth() + 1 + '/' + d.getDate() + ' ' + d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
-    latestEl.innerHTML = '<div class="wo-latest-row"><span class="wo-latest-icon">⚖️</span><span class="wo-latest-date">最新记录 ' + timeLabel + '</span><span class="wo-latest-value">' + latestMorningVal + ' kg</span></div>';
+    latestEl.innerHTML = '<div class="wo-latest-row"><svg class="icon-svg" style="width:18px;height:18px;color:var(--text-secondary);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M12 7a5 5 0 0 1 0 10"/></svg><span class="wo-latest-date">最新记录 ' + timeLabel + '</span><span class="wo-latest-value">' + latestMorningVal + ' kg</span></div>';
   } else {
     latestEl.innerHTML = '<div class="wo-latest-empty">暂无体重记录</div>';
   }
 
-  // 本月运动时长（分钟）
-  var monthDur = 0;
-  for (var k = 0; k < monthExercises.length; k++) {
-    monthDur += (monthExercises[k].duration || 0);
-  }
-  document.getElementById('statExerciseDur').textContent = monthDur + 'min';
-
   try { renderWeightChart(); } catch(e) {}
-  try { renderExerciseChart(); } catch(e) {}
-  renderHeatmap();
-}
-
-function shiftDashboardMonth(delta) {
-  dashboardMonthOffset += delta;
-  renderDashboard();
+  renderExerciseCalendar(0);
+  updateExerciseComparison();
 }
 
 function editInitialWeight() {
@@ -2396,6 +2498,18 @@ function switchToWeightTab() {
   if (weightBtn) weightBtn.classList.add('active');
   var weightTab = document.getElementById('tab-weight');
   if (weightTab) weightTab.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function switchToExerciseTab() {
+  var btns = document.querySelectorAll('.tab-nav button');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+  var contents = document.querySelectorAll('.tab-content');
+  for (var j = 0; j < contents.length; j++) contents[j].classList.remove('active');
+  var exBtn = document.querySelector('.tab-nav button[data-tab="exercise"]');
+  if (exBtn) exBtn.classList.add('active');
+  var exTab = document.getElementById('tab-exercise');
+  if (exTab) exTab.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -2472,106 +2586,93 @@ function renderWeightChart() {
   });
 }
 
-function renderExerciseChart() {
-  if (typeof Chart === 'undefined') return;
-  var canvas = document.getElementById('exerciseChart');
-  if (!canvas) return;
-  var ctx = canvas.getContext('2d');
-  if (exerciseChartInst) exerciseChartInst.destroy();
+function renderExerciseCalendar(delta) {
+  exCalendarOffset += delta;
+  var container = document.getElementById('exCalendar');
+  var labelEl = document.getElementById('exerciseCalLabel');
+  var now = new Date();
+  var year = now.getFullYear();
+  var month = now.getMonth() + exCalendarOffset;
+  var targetDate = new Date(year, month, 1);
+  year = targetDate.getFullYear();
+  month = targetDate.getMonth();
 
-  var mr = getMonthRange(dashboardMonthOffset);
-  var monthStart = new Date(mr.year, mr.month, 1);
-  var monthEnd = new Date(mr.year, mr.month + 1, 1);
-  var monthExercises = data.exercises.filter(function(e) {
-    var d = new Date(e.date);
-    return d >= monthStart && d < monthEnd;
-  });
+  labelEl.textContent = year + '年' + (month + 1) + '月';
 
-  var emptyEl = canvas.parentElement.querySelector('.empty-state');
-  if (!monthExercises.length) {
-    if (exerciseChartInst) { exerciseChartInst.destroy(); exerciseChartInst = null; }
-    canvas.style.display = 'none';
-    if (!emptyEl) {
-      emptyEl = document.createElement('div');
-      emptyEl.className = 'empty-state';
-      emptyEl.innerHTML = '<div class="empty-text">' + mr.label + '暂无运动记录</div>';
-      canvas.parentElement.appendChild(emptyEl);
-    } else {
-      emptyEl.querySelector('.empty-text').textContent = mr.label + '暂无运动记录';
+  var todayStr = today();
+  var firstDay = new Date(year, month, 1).getDay();
+  var daysInMonth = new Date(year, month + 1, 0).getDate();
+  var prevMonthDays = new Date(year, month, 0).getDate();
+
+  var exDates = {};
+  for (var i = 0; i < data.exercises.length; i++) {
+    var ed = new Date(data.exercises[i].date);
+    if (ed.getFullYear() === year && ed.getMonth() === month) {
+      exDates[ed.getDate()] = true;
     }
-    return;
-  }
-  canvas.style.display = '';
-  if (emptyEl) emptyEl.remove();
-
-  var byType = {};
-  for (var i = 0; i < monthExercises.length; i++) {
-    var e = monthExercises[i];
-    byType[e.type] = (byType[e.type] || 0) + e.duration;
   }
 
-  var colors = ['#007AFF','#FF9500','#34C759','#FF3B30','#AF52DE','#5AC8FA','#FFD60A','#8E8E93'];
+  var headers = ['日','一','二','三','四','五','六'];
+  var html = '';
+  for (var h = 0; h < 7; h++) {
+    html += '<div class="ex-day-header">' + headers[h] + '</div>';
+  }
 
-  exerciseChartInst = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: Object.keys(byType),
-      datasets: [{
-        data: Object.values(byType),
-        backgroundColor: colors.slice(0, Object.keys(byType).length),
-        borderWidth: 0
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            boxWidth: 10, padding: 12, font: { size: 11, family: "-apple-system" },
-            usePointStyle: true,
-            generateLabels: function(chart) {
-              var d = chart.data;
-              return d.labels.map(function(label, i) {
-                var mm = d.datasets[0].data[i];
-                var hh = Math.floor(mm / 60);
-                var m = mm % 60;
-                var dur = hh > 0 ? (m > 0 ? hh + 'h' + m + 'm' : hh + 'h') : m + 'm';
-                return { text: label + ' ' + dur, fillStyle: d.datasets[0].backgroundColor[i], strokeStyle: 'transparent', index: i, pointStyle: 'circle' };
-              });
-            }
-          }
-        }
-      }
-    }
-  });
+  for (var p = firstDay - 1; p >= 0; p--) {
+    var pd = prevMonthDays - p;
+    html += '<div class="ex-cell dim">' + pd + '</div>';
+  }
+
+  for (var d = 1; d <= daysInMonth; d++) {
+    var dateStr = year + '-' + String(month + 1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    var cls = 'ex-cell';
+    if (exDates[d]) cls += ' has-exercise';
+    if (dateStr === todayStr) cls += ' today';
+    html += '<div class="' + cls + '">' + d + '</div>';
+  }
+
+  var totalCells = firstDay + daysInMonth;
+  var remaining = (7 - (totalCells % 7)) % 7;
+  for (var n = 1; n <= remaining; n++) {
+    html += '<div class="ex-cell dim">' + n + '</div>';
+  }
+
+  container.innerHTML = html;
 }
 
-function renderHeatmap() {
-  var container = document.getElementById('heatmap');
-  var checkinDays = getCheckinDays();
+function shiftExerciseCalendar(delta) {
+  renderExerciseCalendar(delta);
+}
 
-  var days = [];
-  for (var i = 89; i >= 0; i--) {
-    var d = new Date();
-    d.setDate(d.getDate() - i);
-    days.push(d.toISOString().split('T')[0]);
+function updateExerciseComparison() {
+  var tn = today();
+  var yd = new Date(); yd.setDate(yd.getDate() - 1);
+  var ydStr = yd.toISOString().split('T')[0];
+
+  var todayDur = 0, yesterdayDur = 0;
+  for (var i = 0; i < data.exercises.length; i++) {
+    var e = data.exercises[i];
+    if (e.date === tn) todayDur += (e.duration || 0);
+    if (e.date === ydStr) yesterdayDur += (e.duration || 0);
   }
 
-  var counts = {};
-  for (var j = 0; j < data.weights.length; j++) counts[data.weights[j].date] = (counts[data.weights[j].date] || 0) + 1;
-  for (var k = 0; k < data.exercises.length; k++) counts[data.exercises[k].date] = (counts[data.exercises[k].date] || 0) + 1;
-  for (var p = 0; p < data.periods.length; p++) {
-    var ps = new Date(data.periods[p].start), pe = new Date(data.periods[p].end);
-    var pd = new Date(ps);
-    while (pd <= pe) { var ds = pd.toISOString().split('T')[0]; counts[ds] = (counts[ds] || 0) + 1; pd.setDate(pd.getDate() + 1); }
+  document.getElementById('compareToday').textContent = todayDur + ' 分钟';
+  document.getElementById('compareYesterday').textContent = yesterdayDur + ' 分钟';
+
+  var hintEl = document.getElementById('compareHint');
+  if (todayDur === 0 && yesterdayDur === 0) {
+    hintEl.textContent = '最近两天暂无运动记录';
+  } else if (todayDur < yesterdayDur) {
+    hintEl.textContent = '今天到目前为止，运动时长比昨天少';
+  } else if (todayDur > yesterdayDur) {
+    hintEl.textContent = '今天运动时长已超过昨天，继续保持！';
+  } else {
+    hintEl.textContent = '今天运动时长与昨天持平';
   }
 
-  container.innerHTML = days.map(function(d) {
-    var count = counts[d] || 0;
-    var level = count >= 4 ? 4 : count >= 3 ? 3 : count >= 2 ? 2 : count >= 1 ? 1 : 0;
-    return '<div class="heatmap-day level-' + level + '" title="' + d + ': ' + count + ' 次"></div>';
-  }).join('');
+  var maxDur = Math.max(todayDur, yesterdayDur, 1);
+  var bar = document.getElementById('compareBar');
+  bar.style.width = (yesterdayDur / maxDur * 100) + '%';
 }
 
 // ─── Excel Export ───
