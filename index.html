@@ -512,6 +512,147 @@ body {
   font-weight: 600;
   letter-spacing: 0.3px;
 }
+.edit-initial {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px; height: 26px;
+  line-height: 1;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  background: var(--glass-tertiary);
+  transition: all 210ms ease-out;
+  margin-left: 4px;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.edit-initial:active { background: var(--accent); color: white; transform: scale(0.92); transition: transform 80ms ease-out; }
+
+/* ═══════════════ Weight Overview Card ═══════════════ */
+.weight-overview-card {
+  background: var(--glass-secondary);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: var(--r-lg);
+  border: 0.5px solid var(--edge-secondary);
+  padding: 16px 14px;
+  margin-bottom: 10px;
+}
+.wo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+.wo-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+.wo-more {
+  font-size: 12px;
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 500;
+}
+.wo-subtitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--warning);
+  margin-bottom: 12px;
+}
+.wo-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 0 2px;
+}
+.wo-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 62px;
+  -webkit-tap-highlight-color: transparent;
+}
+.wo-side-val {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+.wo-side-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  font-weight: 500;
+}
+.wo-side-date {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  margin-top: 1px;
+}
+.wo-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+.wo-ring {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+.wo-ring svg { display: block; }
+.wo-ring-inner {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.wo-current-label {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  margin-bottom: 2px;
+}
+.wo-current-val {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.1;
+}
+.wo-remain-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
+.wo-remain-val {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--danger);
+  line-height: 1.2;
+}
+.wo-latest {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 0.5px solid var(--edge-subtle);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.wo-latest-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wo-latest-icon { font-size: 16px; }
+.wo-latest-date { color: var(--text-tertiary); font-size: 11px; min-width: 70px; }
+.wo-latest-value { font-weight: 700; color: var(--text); font-size: 14px; }
+.wo-latest-empty { text-align: center; color: var(--text-tertiary); font-size: 11px; }
+
 .chart-container {
   position: relative;
   height: 220px;
@@ -794,9 +935,12 @@ body {
 }
 .mini-calendar .day-cell.empty { cursor: default; }
 .mini-calendar .day-cell.today { font-weight: 700; background: var(--glass-secondary); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 0.5px solid var(--edge-secondary); }
-.mini-calendar .day-cell.period { background: var(--danger-glass); color: var(--danger); }
-.mini-calendar .day-cell.fertile { background: rgba(52,199,89,0.12); color: #248A3D; }
-.mini-calendar .day-cell.ovulation { background: rgba(255,149,0,0.12); color: #C93400; }
+.mini-calendar .day-cell.period { background: rgba(255,59,48,0.18); color: var(--danger); font-weight: 600; }
+.mini-calendar .day-cell.period.predicted { background: rgba(255,59,48,0.10); color: rgba(255,59,48,0.55); font-weight: 500; border: 1px dashed rgba(255,59,48,0.25); }
+.mini-calendar .day-cell.fertile { background: rgba(52,199,89,0.16); color: #1B6E2D; font-weight: 600; }
+.mini-calendar .day-cell.fertile.predicted { background: rgba(52,199,89,0.08); color: rgba(27,110,45,0.5); font-weight: 500; border: 1px dashed rgba(52,199,89,0.2); }
+.mini-calendar .day-cell.ovulation { background: rgba(255,149,0,0.20); color: #C93400; font-weight: 600; }
+.mini-calendar .day-cell.ovulation.predicted { background: rgba(255,149,0,0.10); color: rgba(201,52,0,0.5); font-weight: 500; border: 1px dashed rgba(255,149,0,0.2); }
 
 .period-symptoms {
   display: flex; flex-wrap: wrap; gap: 6px;
@@ -933,11 +1077,21 @@ body {
   </div>
 
   <div class="card">
-    <div class="card-title">日历</div>
-    <div class="mini-calendar" id="miniCalendar"></div>
-    <div style="display:flex;gap:14px;font-size:11px;margin-top:8px;color:var(--text-secondary);font-weight:500;">
-      <span>● 经期</span><span>● 易孕期</span><span>● 排卵日</span>
+    <div class="card-title" style="justify-content:space-between;">
+      <span>日历</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="nav-arrow" onclick="shiftPeriodCalendar(-1)" style="width:28px;height:28px;font-size:16px;">‹</button>
+        <span id="periodCalendarLabel" style="font-size:13px;font-weight:600;min-width:80px;text-align:center;"></span>
+        <button class="nav-arrow" onclick="shiftPeriodCalendar(1)" style="width:28px;height:28px;font-size:16px;">›</button>
+      </div>
     </div>
+    <div class="mini-calendar" id="miniCalendar"></div>
+    <div style="display:flex;gap:14px;font-size:11px;margin-top:8px;font-weight:500;">
+      <span style="color:var(--danger);">● 经期</span>
+      <span style="color:#248A3D;">● 易孕期</span>
+      <span style="color:#C93400;">● 排卵日</span>
+    </div>
+    <div id="periodCalendarHint" style="display:none;font-size:10px;color:var(--text-tertiary);margin-top:6px;text-align:center;">虚线边框为预测数据，仅供参考</div>
   </div>
 
   <div class="card">
@@ -988,7 +1142,8 @@ body {
     <div class="exercise-type-grid" id="exerciseTypes">
       <div class="exercise-type-item" data-type="跑步" onclick="selectExerciseType(this)"><span class="emoji">🏃</span>跑步</div>
       <div class="exercise-type-item" data-type="快走" onclick="selectExerciseType(this)"><span class="emoji">🚶</span>快走</div>
-      <div class="exercise-type-item" data-type="跳绳" onclick="selectExerciseType(this)"><span class="emoji">🪢</span>跳绳</div>
+      <div class="exercise-type-item" data-type="跳绳" onclick="selectExerciseType(this)">
+        <span class="emoji jump-rope-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="14" cy="5" r="3" fill="#FF6B35"/><path d="M10 8 Q14 14 14 14 Q14 14 18 8" stroke="#FF6B35" stroke-width="1.2" fill="none"/><circle cx="14" cy="14" r="1.2" fill="#FF6B35"/><line x1="14" y1="15" x2="14" y2="22" stroke="#FF6B35" stroke-width="1.5" stroke-linecap="round"/><line x1="14" y1="22" x2="14" y2="26" stroke="#888" stroke-width="1.5" stroke-linecap="round"/><line x1="14" y1="22" x2="12" y2="25" stroke="#888" stroke-width="1.5" stroke-linecap="round"/><line x1="14" y1="22" x2="16" y2="25" stroke="#888" stroke-width="1.5" stroke-linecap="round"/><path d="M5 8 Q9 14 9 18 Q9 23 5 26" stroke="#FF6B35" stroke-width="1.2" fill="none"/><path d="M23 8 Q19 14 19 18 Q19 23 23 26" stroke="#FF6B35" stroke-width="1.2" fill="none"/><line x1="5" y1="3" x2="5" y2="8" stroke="#FF6B35" stroke-width="1.2" stroke-linecap="round"/><line x1="23" y1="3" x2="23" y2="8" stroke="#FF6B35" stroke-width="1.2" stroke-linecap="round"/><line x1="3" y1="3" x2="5" y2="3" stroke="#FF6B35" stroke-width="1.2" stroke-linecap="round"/><line x1="23" y1="3" x2="25" y2="3" stroke="#FF6B35" stroke-width="1.2" stroke-linecap="round"/></svg></span>跳绳</div>
       <div class="exercise-type-item" data-type="瑜伽" onclick="selectExerciseType(this)"><span class="emoji">🧘</span>瑜伽</div>
       <div class="exercise-type-item" data-type="力量" onclick="selectExerciseType(this)"><span class="emoji">🏋️</span>力量</div>
       <div class="exercise-type-item" data-type="游泳" onclick="selectExerciseType(this)"><span class="emoji">🏊</span>游泳</div>
@@ -1032,15 +1187,45 @@ body {
 
 <!-- Dashboard Tab -->
 <div class="tab-content active" id="tab-dashboard">
-  <div class="dashboard-grid">
-    <div class="stat-card">
-      <div class="stat-num" id="statLatestWeight" style="color:var(--accent);">--</div>
-      <div class="stat-label">当前体重</div>
+
+  <!-- ═══ 体重概览卡片 — 环形进度 ═══ -->
+  <div class="weight-overview-card" id="weightOverviewCard">
+    <div class="wo-header">
+      <span class="wo-title">体重</span>
+      <span class="wo-more" onclick="switchToWeightTab()">更多记录 ›</span>
     </div>
-    <div class="stat-card">
-      <div class="stat-num" id="statWeightChange" style="color:var(--danger);">--</div>
-      <div class="stat-label">7天体重变化</div>
+    <div class="wo-subtitle" id="woSubtitle">减重第 -- 天</div>
+    <div class="wo-body">
+      <div class="wo-side" style="cursor:pointer;" onclick="editInitialWeight()" title="点击修改初始体重">
+        <div class="wo-side-val" id="woInitial">--</div>
+        <div class="wo-side-label">初始体重 ✎</div>
+        <div class="wo-side-date" id="woInitialDate"></div>
+      </div>
+      <div class="wo-center">
+        <div class="wo-ring">
+          <svg viewBox="0 0 120 120" width="120" height="120">
+            <circle class="ring-bg" cx="60" cy="60" r="52" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="8"/>
+            <circle class="ring-progress" id="woRingProgress" cx="60" cy="60" r="52" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 327" transform="rotate(-90 60 60)"/>
+          </svg>
+          <div class="wo-ring-inner">
+            <div class="wo-current-label">当前（公斤）</div>
+            <div class="wo-current-val" id="woCurrent">--</div>
+          </div>
+        </div>
+        <div class="wo-remain-label">还需减重（公斤）</div>
+        <div class="wo-remain-val" id="woRemain">--</div>
+      </div>
+      <div class="wo-side" style="cursor:pointer;" onclick="editTargetWeight()" title="点击修改目标体重">
+        <div class="wo-side-val" id="woTarget">--</div>
+        <div class="wo-side-label">目标体重 ✎</div>
+        <div class="wo-side-date" id="woTargetDate"></div>
+      </div>
     </div>
+    <div class="wo-latest" id="woLatest"></div>
+  </div>
+
+  <!-- ═══ 统计卡片 2x2 ═══ -->
+  <div class="dashboard-grid" style="grid-template-columns:1fr 1fr;">
     <div class="stat-card">
       <div class="stat-num" id="statExercise" style="color:var(--warning);">0</div>
       <div class="stat-label">本月运动次数</div>
@@ -1134,9 +1319,11 @@ function loadData() {
     if (!d.weights || d.weights.length === 0) { d.weights = SEED_WEIGHTS; localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
     if (!Array.isArray(d.periods)) d.periods = [];
     if (!Array.isArray(d.exercises)) d.exercises = [];
+    if (typeof d.initialWeight !== 'number') d.initialWeight = 62.3;
+    if (typeof d.targetWeight !== 'number') d.targetWeight = 50;
     return d;
   }
-  return { weights: SEED_WEIGHTS, periods: [], exercises: [] };
+  return { weights: SEED_WEIGHTS, periods: [], exercises: [], initialWeight: 62.3, targetWeight: 50 };
 }
 
 function saveData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
@@ -1514,6 +1701,7 @@ function startWeightForDate(date) {
 
 // ═══════════════ PERIOD ═══════════════
 var periodState = { flow: 'medium-flow', symptoms: [] };
+var periodCalendarOffset = 0; // 日历月份偏移，0=当前月
 
 function selectFlow(btn) {
   var btns = document.querySelectorAll('.flow-btn');
@@ -1680,38 +1868,99 @@ function renderCycleRing() {
   ctx.setLineDash([]);
 }
 
+function shiftPeriodCalendar(delta) {
+  periodCalendarOffset += delta;
+  renderMiniCalendar();
+}
+
+function getPeriodCalendarLabel() {
+  var now = new Date();
+  var target = new Date(now.getFullYear(), now.getMonth() + periodCalendarOffset, 1);
+  return target.getFullYear() + '年' + (target.getMonth() + 1) + '月';
+}
+
 function renderMiniCalendar() {
   var container = document.getElementById('miniCalendar');
   var now = new Date();
-  var year = now.getFullYear(), month = now.getMonth();
+  var year = now.getFullYear(), month = now.getMonth() + periodCalendarOffset;
+  // Normalize month overflow
+  var targetDate = new Date(year, month, 1);
+  year = targetDate.getFullYear();
+  month = targetDate.getMonth();
   var firstDay = new Date(year, month, 1).getDay();
   var daysInMonth = new Date(year, month + 1, 0).getDate();
   var todayDate = now.getDate();
-  var periodDays = getPeriodDaysInMonth(year, month);
+  var isCurrentMonth = (periodCalendarOffset === 0);
 
+  // Update label
+  document.getElementById('periodCalendarLabel').textContent = getPeriodCalendarLabel();
+
+  // Past or current: get actual period days
+  var periodDays = [];
+  if (periodCalendarOffset <= 0) {
+    periodDays = getPeriodDaysInMonth(year, month);
+  }
+
+  // Predict fertile/ovulation for this month (work for past, current, future)
   var fertileDays = [], ovulationDay = null;
   if (data.periods.length > 0) {
     var sorted = [].concat(data.periods).sort(function(a,b){ return new Date(a.start) - new Date(b.start); });
     var cycles = [];
     for (var i = 1; i < sorted.length; i++) cycles.push(daysBetween(sorted[i-1].start, sorted[i].start));
     var avgCycle = cycles.length ? Math.round(cycles.reduce(function(a,b){return a+b;},0)/cycles.length) : 28;
+
+    // For future months, predict the next period
     var lastPeriod = new Date(data.periods[0].start);
-    var np = new Date(lastPeriod);
-    np.setDate(np.getDate() + avgCycle);
-    if (np.getMonth() === month && np.getFullYear() === year) {
-      var ovDay = avgCycle - 14;
-      var fs = new Date(lastPeriod);
-      fs.setDate(fs.getDate() + ovDay - 5);
-      var fe2 = new Date(lastPeriod);
-      fe2.setDate(fe2.getDate() + ovDay);
-      var d = new Date(fs);
-      while (d <= fe2) {
-        if (d.getFullYear() === year && d.getMonth() === month) fertileDays.push(d.getDate());
-        d.setDate(d.getDate() + 1);
+
+    if (periodCalendarOffset <= 0) {
+      // Current or past: predict the current cycle's next period
+      var np = new Date(lastPeriod);
+      np.setDate(np.getDate() + avgCycle);
+      if (np.getMonth() === month && np.getFullYear() === year) {
+        var ovDay = avgCycle - 14;
+        var fs = new Date(lastPeriod);
+        fs.setDate(fs.getDate() + ovDay - 5);
+        var fe2 = new Date(lastPeriod);
+        fe2.setDate(fe2.getDate() + ovDay);
+        var d = new Date(fs);
+        while (d <= fe2) {
+          if (d.getFullYear() === year && d.getMonth() === month) fertileDays.push(d.getDate());
+          d.setDate(d.getDate() + 1);
+        }
+        var ov = new Date(lastPeriod);
+        ov.setDate(ov.getDate() + ovDay);
+        if (ov.getFullYear() === year && ov.getMonth() === month) ovulationDay = ov.getDate();
       }
-      var ov = new Date(lastPeriod);
-      ov.setDate(ov.getDate() + ovDay);
-      if (ov.getFullYear() === year && ov.getMonth() === month) ovulationDay = ov.getDate();
+    } else {
+      // Future months: predict periods by extrapolating average cycle
+      var predictedStart = new Date(lastPeriod);
+      predictedStart.setDate(predictedStart.getDate() + avgCycle * periodCalendarOffset);
+      // If the predicted start falls in this month
+      if (predictedStart.getMonth() === month && predictedStart.getFullYear() === year) {
+        var predEnd = new Date(predictedStart);
+        var avgPeriodLen = Math.round(data.periods.map(function(p){return daysBetween(p.start,p.end)+1;}).reduce(function(a,b){return a+b;},0) / data.periods.length);
+        predEnd.setDate(predEnd.getDate() + avgPeriodLen - 1);
+        // Mark predicted period days
+        var pd = new Date(predictedStart);
+        while (pd <= predEnd) {
+          if (pd.getFullYear() === year && pd.getMonth() === month) periodDays.push(pd.getDate());
+          pd.setDate(pd.getDate() + 1);
+        }
+        // Predicted fertile & ovulation
+        var ovDay = avgCycle - 14;
+        var fs = new Date(predictedStart);
+        fs.setDate(fs.getDate() + ovDay - 5);
+        var fe2 = new Date(predictedStart);
+        fe2.setDate(fe2.getDate() + ovDay);
+        var fd = new Date(fs);
+        while (fd <= fe2) {
+          if (fd.getFullYear() === year && fd.getMonth() === month) fertileDays.push(fd.getDate());
+          fd.setDate(fd.getDate() + 1);
+        }
+        var ov = new Date(predictedStart);
+        ov.setDate(ov.getDate() + ovDay);
+        if (ov.getFullYear() === year && ov.getMonth() === month) ovulationDay = ov.getDate();
+      }
     }
   }
 
@@ -1719,13 +1968,17 @@ function renderMiniCalendar() {
   for (var j = 0; j < firstDay; j++) html += '<div class="day-cell empty"></div>';
   for (var d2 = 1; d2 <= daysInMonth; d2++) {
     var cls = 'day-cell';
-    if (d2 === todayDate) cls += ' today';
-    if (periodDays.indexOf(d2) >= 0) cls += ' period';
-    if (d2 === ovulationDay) cls += ' ovulation';
-    else if (fertileDays.indexOf(d2) >= 0) cls += ' fertile';
+    if (isCurrentMonth && d2 === todayDate) cls += ' today';
+    var isPredicted = periodCalendarOffset > 0;
+    if (periodDays.indexOf(d2) >= 0) cls += ' period' + (isPredicted ? ' predicted' : '');
+    if (d2 === ovulationDay) cls += ' ovulation' + (isPredicted ? ' predicted' : '');
+    else if (fertileDays.indexOf(d2) >= 0) cls += ' fertile' + (isPredicted ? ' predicted' : '');
     html += '<div class="' + cls + '">' + d2 + '</div>';
   }
   container.innerHTML = html;
+  // Show prediction hint for future months
+  var hint = document.getElementById('periodCalendarHint');
+  if (hint) hint.style.display = periodCalendarOffset > 0 ? 'block' : 'none';
 }
 
 function renderPeriodHistory() {
@@ -2028,35 +2281,61 @@ function renderDashboard() {
   document.getElementById('dashboardMonthLabel').textContent = mr.label;
 
   var now = new Date();
-  var recent7 = [];
-  for (var i = 0; i < data.weights.length; i++) {
-    var w = data.weights[i];
-    var d = new Date(w.date);
-    if ((now - d) / 86400000 <= 7 && w.morning) recent7.push(w);
-  }
-  recent7.sort(function(a,b){ return new Date(a.date) - new Date(b.date); });
-
-  if (recent7.length >= 2) {
-    var diff = (recent7[recent7.length - 1].morning - recent7[0].morning).toFixed(1);
-    document.getElementById('statWeightChange').textContent = (diff > 0 ? '+' : '') + diff + 'kg';
-    document.getElementById('statWeightChange').style.color = diff > 0 ? 'var(--danger)' : 'var(--success)';
-  } else {
-    document.getElementById('statWeightChange').textContent = '--';
-    document.getElementById('statWeightChange').style.color = 'var(--text-secondary)';
-  }
-
   var tn = today();
-  // 当前体重：最新有晨起体重的记录
+
+  // ═══ 体重概览卡片 ═══
   var latestMorning = null;
-  for (var j = data.weights.length - 1; j >= 0; j--) {
+  for (var j = 0; j < data.weights.length; j++) {
     if (data.weights[j].morning) { latestMorning = data.weights[j]; break; }
   }
-  if (latestMorning) {
-    document.getElementById('statLatestWeight').textContent = latestMorning.morning + 'kg';
-    document.getElementById('statLatestWeight').style.color = 'var(--accent)';
+  var latestMorningVal = latestMorning ? latestMorning.morning : null;
+  var firstWeightDate = data.weights.length > 0 ? data.weights[data.weights.length - 1].date : null;
+
+  // 减重天数
+  var dietDays = 0;
+  if (firstWeightDate) {
+    dietDays = Math.floor((new Date() - new Date(firstWeightDate)) / 86400000) + 1;
+  }
+  document.getElementById('woSubtitle').textContent = '减重第 ' + (dietDays || '--') + ' 天';
+
+  // 初始体重
+  document.getElementById('woInitial').textContent = data.initialWeight ? data.initialWeight.toFixed(1) : '--';
+  document.getElementById('woInitialDate').textContent = firstWeightDate || '--';
+
+  // 目标体重
+  document.getElementById('woTarget').textContent = data.targetWeight ? data.targetWeight.toFixed(1) : '--';
+  document.getElementById('woTargetDate').textContent = '--'; // can be customized later
+
+  // 当前体重 + 圆环进度
+  var totalToLose = data.initialWeight - data.targetWeight; // total weight to lose
+  if (latestMorningVal && totalToLose > 0) {
+    document.getElementById('woCurrent').textContent = latestMorningVal.toFixed(1);
+    var lost = data.initialWeight - latestMorningVal; // already lost
+    var remain = latestMorningVal - data.targetWeight; // still need to lose
+    remain = Math.max(0, remain);
+    document.getElementById('woRemain').textContent = remain.toFixed(1);
+    // Ring progress: lost / totalToLose
+    var pct = Math.min(1, Math.max(0, lost / totalToLose));
+    var circumference = 2 * Math.PI * 52; // ~326.7
+    var dash = pct * circumference;
+    var ring = document.getElementById('woRingProgress');
+    ring.setAttribute('stroke-dasharray', dash + ' ' + circumference);
+    ring.setAttribute('stroke', lost >= 0 ? 'var(--success)' : 'var(--danger)');
   } else {
-    document.getElementById('statLatestWeight').textContent = '--';
-    document.getElementById('statLatestWeight').style.color = 'var(--text-secondary)';
+    document.getElementById('woCurrent').textContent = '--';
+    document.getElementById('woRemain').textContent = '--';
+    var ring2 = document.getElementById('woRingProgress');
+    ring2.setAttribute('stroke-dasharray', '0 327');
+  }
+
+  // 最新体重记录条目
+  var latestEl = document.getElementById('woLatest');
+  if (latestMorning) {
+    var d = new Date(latestMorning.date);
+    var timeLabel = d.getMonth() + 1 + '/' + d.getDate() + ' ' + d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+    latestEl.innerHTML = '<div class="wo-latest-row"><span class="wo-latest-icon">⚖️</span><span class="wo-latest-date">最新记录 ' + timeLabel + '</span><span class="wo-latest-value">' + latestMorningVal + ' kg</span></div>';
+  } else {
+    latestEl.innerHTML = '<div class="wo-latest-empty">暂无体重记录</div>';
   }
 
   // 本月运动时长（分钟）
@@ -2074,6 +2353,50 @@ function renderDashboard() {
 function shiftDashboardMonth(delta) {
   dashboardMonthOffset += delta;
   renderDashboard();
+}
+
+function editInitialWeight() {
+  inlineEditWeight('woInitial', 'initialWeight', '初始体重');
+}
+function editTargetWeight() {
+  inlineEditWeight('woTarget', 'targetWeight', '目标体重');
+}
+function inlineEditWeight(elId, dataKey, label) {
+  var el = document.getElementById(elId);
+  if (!el) return;
+  var curVal = data[dataKey] || '';
+  var origText = el.textContent;
+  el.innerHTML = '<input type="number" id="inlineWeightInput" value="' + curVal + '" step="0.1" min="30" max="300" inputmode="decimal" style="width:62px;font-size:18px;padding:2px 4px;border:1px solid var(--accent);border-radius:8px;text-align:center;font-family:var(--font);background:white;color:var(--text);font-weight:700;">';
+  var input = document.getElementById('inlineWeightInput');
+  input.focus();
+  input.select();
+  function commit() {
+    var raw = input.value.trim();
+    if (!raw) { el.textContent = origText; return; }
+    var num = parseFloat(raw);
+    if (isNaN(num) || num <= 0 || num > 300) { showToast('请输入有效的体重数值 (30-300kg)'); el.textContent = origText; return; }
+    data[dataKey] = num;
+    saveData(data);
+    renderDashboard();
+    showToast(label + '已更新为 ' + num + 'kg');
+  }
+  input.addEventListener('blur', commit);
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { input.blur(); }
+    if (e.key === 'Escape') { el.textContent = origText; }
+  });
+}
+
+function switchToWeightTab() {
+  var btns = document.querySelectorAll('.tab-nav button');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+  var contents = document.querySelectorAll('.tab-content');
+  for (var j = 0; j < contents.length; j++) contents[j].classList.remove('active');
+  var weightBtn = document.querySelector('.tab-nav button[data-tab="weight"]');
+  if (weightBtn) weightBtn.classList.add('active');
+  var weightTab = document.getElementById('tab-weight');
+  if (weightTab) weightTab.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function setWeightTrendMode(mode) {
